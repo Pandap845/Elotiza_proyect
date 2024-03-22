@@ -1,0 +1,257 @@
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100%;
+    background: #7F7FD5;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+.container {
+    display: flex;
+    padding-left: 50px;
+    padding-right: 50px;
+    align-items: center;
+}
+
+header, nav, section, footer {
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    background: #7F7FD5;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    color: white;
+}
+h1 {
+    padding-left: 10%;
+}
+header img{
+    max-height:150px;
+    max-width:150px;
+}
+header p{
+    padding-left: 10%;
+}
+.formulario_Crear_Cuenta {
+    text-align: center;
+}
+.productos{
+    text-align: center;
+    align-items: center;
+}
+.producto{
+    text-align: center;
+}
+input[type=text] , input[type=password]{
+	appearance: none;
+	border: none;
+	outline: none;
+	border-bottom: .2em solid #50dcff;
+	background: rgba(#50dcff, .2);
+	border-radius: .2em .2em 0 0;
+	padding: .4em;
+	color: #4961e7;
+}
+
+input[type=submit] {
+	appearance: none;
+	border: .2em solid #50dcff;
+	background: hsl(0 0 0/0);
+	padding: .85em 1.5em;
+	color: #50dcff;
+	border-radius: 2em;
+	transition: 1s;
+	&:hover, &:focus, &:active {
+		background: #50dcff;
+		color: #fff;
+	}
+}
+input[type=number] {
+	width: 3em;
+	padding: 0.5em;
+	border: .2em solid #50dcff;
+	border-radius: 1em;
+	text-align: center;
+	color: #4961e7;
+	appearance: textfield;
+	margin: 0;
+	&::-webkit-inner-spin-button {
+		opacity: 1;
+		background: #50dcff;
+	}
+}
+input[type=radio], input[type=checkbox] {
+    align-tracks: center;
+	appearance: none;
+  background-color: #fff;
+  margin: 0;
+	font: inherit;
+  color: #50dcff;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 50%;
+	display: grid;
+  place-content: center;
+	&::before {
+		content: "";
+		width: 0.65em;
+		height: 0.65em;
+		border-radius: 50%;
+		transform: scale(0);
+		transition: 120ms transform ease-in-out;
+		box-shadow: inset 1em 1em #50dcff;
+		background-color: CanvasText;
+		transform-origin: top bottom;
+	}
+	&:checked::before {
+		transform: scale(1);
+	}
+}
+input[type=date] {
+	border: .2em solid #50dcff;
+	padding: .8em .9em;
+	border-radius: 2em;
+	color: #50dcff;
+	&::-webkit-datetime-edit-text { color: #50dcff; padding: 0 0.3em; }
+	&::-webkit-inner-spin-button { display: none; }
+    
+}
+nav ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.main-content {
+    background-color: #fff;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+footer {
+    color: #fff;
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px 0;
+    background-color: #333;
+}
+
+img {
+    max-width: 300px;
+}
+
+#Elote {
+    background-color: #f8f8f8;
+    padding: 40px 0;
+}
+
+.Elote {
+    flex: 0 0 auto;
+    margin-right: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    min-width: 30%;
+    min-height: 400px;
+    
+}
+.Topping {
+    flex: 0 0 auto;
+    margin-right: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    min-width: 30%;
+    min-height: 400px;
+    
+}
+.producto:hover{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    background-color:rgb(80, 42, 42);
+    color: white;
+}
+
+.producto:hover img{
+    min-width: 200px;
+    min-height: 200px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.producto:hover .precio{
+    font-weight: bold;
+    color: yellow
+}
+
+.Elote img {
+    max-width: 150px;
+    max-height: 150px;
+    min-width: 150px;
+    min-height: 150px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+.Topping img {
+    max-width: 150px;
+    max-height: 150px;
+    min-width: 150px;
+    min-height: 150px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+.precio {
+    font-weight: bold;
+    color: #e44d26;
+}
+
+.Elote-container {
+    display: flex;
+    flex-wrap: nowrap; 
+    overflow-x: auto; 
+    margin-bottom: 20px;
+}
+
+button {
+    margin: 5px;
+    padding: 8px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
