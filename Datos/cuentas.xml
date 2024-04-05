@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Cuentas>
+  <Cuenta>
+    <nombre>erwq</nombre>
+    <apellido>2</apellido>
+    <email>asad</email>
+    <telefono>adsdasd</telefono>
+    <password>wq</password>
+  </Cuenta>
+  <Cuenta>
+    <nombre>erwq</nombre>
+    <apellido>2</apellido>
+    <email>asad</email>
+    <telefono>adsdasd</telefono>
+    <password>wq</password>
+  </Cuenta>
+  <Cuenta>
+    <nombre>Victor</nombre>
+    <apellido>Emiliano</apellido>
+    <email>aguilapanda.01@gmail.com</email>
+    <telefono>3231231</telefono>
+    <password>MarVic123</password>
+  </Cuenta>
+
+  <!-- Cuenta ADMIN-->
+  <Cuenta>
+    <nombre>Senior</nombre>
+    <apellido>Haskell</apellido>
+    <email>a20300695@ceti.mx</email>
+    <telefono>3231231</telefono>
+    <password>MikuElote</password>
+  </Cuenta>
+</Cuentas>

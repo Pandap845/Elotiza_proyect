@@ -11,7 +11,7 @@
 <body>
     <header>
         <div class="container">
-            <img src="logo1.jpg" alt="Logo de Elotes">
+            <img src="img/logo1.jpg" alt="Logo de Elotes">
             <div class="texto">
                 <h1 id="titulo" data-translate="titulo">Miku-Elotes</h1>
                 <p id="descripcion" data-translate="descripcion">"Los elotes son mejores que el jugo de vegetales, pruebalos!!!".</p>
@@ -40,7 +40,8 @@
             <div class= "formulario_Crear_Cuenta">
                 <h1>Unete a los millones de comedores de elotes activos</h1>
                 <h2>Estos elotes no se comeran solos</h2>
-                <form>
+                <form action="Procesar_formularios.php" method="post">
+                    <input type="hidden" name="formularioId" value="crearCuenta">
                 <p>Nombre Completo:</p>
                 <input type="text" name ="Nombre" required="" placeholder="Nombre(s)"/>
                 <input type="text" name ="Apellido" required="" placeholder="Apellido(s)"/>
@@ -68,7 +69,8 @@
             <div class= "formulario_Crear_Cuenta">
                 <h1>Con que ya eres catador de Elotes?</h1>
                 <h2>Recuerdanos quien eres por favor!!!</h2>
-                <form>
+                <form action="Procesar_formularios.php" method="post">
+                    <input type="hidden" name="formularioId" value="inicioSesion">
                 <p>Correo electronico:</p>
                 <input type="text" name ="email" required=""placeholder="ej: EloteNator3000@elotiza.com"/>
                 <p>Contraseña:</p>
@@ -96,7 +98,8 @@
         </section>
 
         <section id="productos" class="productos">
-        <form id = "Personalizado" action="Formulario.php" method="post">
+            <form action="Procesar_formularios.php" method="post">
+                <input type="hidden" name="formularioId" value="carrito">
             <div class="container">
                 <h2 data-translate="produx">Cuatos Elotes te gustaria ordenar?</h2>
             <br>
@@ -187,7 +190,8 @@
 
         <div class= "formulario_Direccion">
             <h1>Ingresa la direccion a la que enviaremos los elote, y tu metodo de pagos: </h1>
-            <form>
+            <form action="Procesar_formularios.php" method="post">
+                <input type="hidden" name="formularioId" value="pago">
             <p>Ciudad:</p>
             <input type="text" name ="D_Ciudad" required="" placeholder="Ej. Zapopan"/>
             <p>Colonia:</p>
@@ -237,7 +241,8 @@
             <div class= "formulario_Crear_Lote_Suministros">
                 <h1>Bienvenido a la zona de suministros</h1>
                 <h2>Aqui puedes crerar un lote de suministros, ingresa la siguiente informacion:</h2>
-                <form>
+                <form action="Procesar_formularios.php" method="post">
+                    <input type="hidden" name="formularioId" value="lote">
                 <p>No. Lote:</p>
                 <input type="text" name ="Lote" required="" placeholder="Ej. 12345"/>
                 <p>descripcion del Lote:</p>

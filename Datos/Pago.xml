@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<DireccionPago>
+  <Cuenta>
+    <Email>aguilapanda.01@gmail.com</Email>
+    <Direccion>
+      <Ciudad>asd</Ciudad>
+      <Colonia>wqe</Colonia>
+      <Calle>PEPE</Calle>
+      <NumeroExterior>12313131</NumeroExterior>
+      <NumeroInterior>213</NumeroInterior>
+    </Direccion>
+    <Pago>
+      <NumeroTarjeta>3213</NumeroTarjeta>
+      <NombreTarjeta>12321</NombreTarjeta>
+      <Vencimiento>1123-03-12</Vencimiento>
+      <CCV>1</CCV>
+    </Pago>
+  </Cuenta>
+</DireccionPago>

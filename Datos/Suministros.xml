@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Suministros>
+  <Suministro>
+    <Lote>4444</Lote>
+    <Descripcion>3333</Descripcion>
+    <Cantidad>1111</Cantidad>
+    <Costo>2222</Costo>
+    <Ubicacion>6666</Ubicacion>
+    <Caducidad>0007-07-07</Caducidad>
+  </Suministro>
+</Suministros>
