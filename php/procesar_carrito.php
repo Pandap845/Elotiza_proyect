@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['usuario'])) {
     $doc->save($archivo);
 
     // Redireccionar al usuario a una página de confirmación o al carrito
-    header("Location: index.html");
+    header("Location: index.php");
     exit();
 } else {
     // Mensaje de error si no se ha iniciado sesión o el formulario no se ha enviado

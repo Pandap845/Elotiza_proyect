@@ -24,14 +24,38 @@
             <ul>
                 <li><a  data-translate="inicio" href="#inicio">Inicio</a></li>
                 <li><a  data-translate="productos"  href="#productos">Personaliza tu elote</a></li>
+                <li><a  data-translate="carrito" href="#Carrito">Ir al carrito</a></li>
                 <li><a  data-translate="CrearCuenta" href="#CrearCuenta">Crear una Cuenta</a></li>
                 <li><a  data-translate="Iniciarsesio" href="#IniciarSesion">Inicio de Sesion</a></li>
                 <li><a  data-translate="contacto" href="#contacto">Contacto</a></li>
-                <li><a  data-translate="carrito" href="#Carrito">Ir al carrito</a></li>
+                
             </ul>
         </div>
     </nav>
 
+    <h1>
+        <?php
+
+
+        session_start();
+        
+        if($_SESSION['rol'] != '1')
+        {
+            echo 'Bienvenido Usuario!';
+            
+        }
+        else if ($_SESSION['rol'] == '1')
+        {
+            echo 'Bienvenido Administrador!';
+            
+        }
+        else
+        {
+            echo 'Debes Iniciar sesion!';
+        }
+
+        ?>
+    </h1>
 
     <div class="main-content">
 
@@ -235,8 +259,22 @@
         </div>
 
 
+        <?php
 
-        <section id="Suministros">
+                    
+            if ($_SESSION['rol'] == '1')
+            {
+                echo '<section id="Suministros">';
+
+            }
+            else
+            {
+                echo '<section id="Suministros" hidden>';
+
+            }
+
+        ?>
+        
 
             <div class= "formulario_Crear_Lote_Suministros">
                 <h1>Bienvenido a la zona de suministros</h1>
@@ -266,7 +304,21 @@
 
         </section>
 
-        <section id="Finanzas">
+        <?php
+
+            if ($_SESSION['rol'] == '1')
+            {
+                echo '<section id="Finanzas">';
+
+            }
+            else
+            {
+                echo '<section id="Finanzas" hidden>';
+
+            }
+
+        ?>
+
             <p>Hola, bienvenido a la seccion de finanzas, aqui se muestran los resultados de ventas y su contraste con el gasto supuso un lote en especifico</p>
 
             <p>Ventas Totales: 7 777 777.77</p>
@@ -297,7 +349,21 @@
 
         </section>
 
-        <section id="Distribucion">
+        <?php
+
+            if ($_SESSION['rol'] == '1')
+            {
+                echo '<section id="Distribucion">';
+
+            }
+            else
+            {
+                echo '<section id="Distribucion" hidden>';
+
+            }
+
+        ?>
+
             <p>Hola, bienvenido a la seccion de Distribucion, Aqui veras listada la informacion de los pedidos pendientes</p>
 
             <p>Datos de pedidos:</p>
@@ -342,19 +408,7 @@
 
         </section>
 
-        <section id="contacto">
-            <div class="container">
-                <h2 data-translate="contacto">Contacto</h2>
-            </div>
-            <div class="container">
-                <p data-translate="telef">Numero</p>
-                <p>: +52 33 3111 1235</p>
-            </div>
-            <div class="container">
-                <p data-translate="correo">Correo</p>
-                <p>: MrElotes@elotiza.com</p>
-            </div>
-        </section>
+        
 
 
 
@@ -406,8 +460,13 @@
                     <input type = "submit" value="Borrar"/>
                 </div>
             </div>
+            <form action="Procesar_formularios.php" method="post">
 
-            <input type = "submit" value="Realizar Pedido"/>
+                <input type="hidden" name="formularioId" value="RealizarPedido">
+
+            <input type = "submit" value="RealizarPedido"/>
+
+            </form>
 
 
 
@@ -415,6 +474,20 @@
 
 
         </Seccion>
+
+        <section id="contacto">
+            <div class="container">
+                <h2 data-translate="contacto">Contacto</h2>
+            </div>
+            <div class="container">
+                <p data-translate="telef">Numero</p>
+                <p>: +52 33 3111 1235</p>
+            </div>
+            <div class="container">
+                <p data-translate="correo">Correo</p>
+                <p>: MrElotes@elotiza.com</p>
+            </div>
+        </section>
 
 
 

@@ -6,6 +6,7 @@
     <email>asad</email>
     <telefono>adsdasd</telefono>
     <password>wq</password>
+    <rol>0</rol>
   </Cuenta>
   <Cuenta>
     <nombre>erwq</nombre>
@@ -13,6 +14,7 @@
     <email>asad</email>
     <telefono>adsdasd</telefono>
     <password>wq</password>
+    <rol>0</rol>
   </Cuenta>
   <Cuenta>
     <nombre>Victor</nombre>
@@ -20,6 +22,7 @@
     <email>aguilapanda.01@gmail.com</email>
     <telefono>3231231</telefono>
     <password>MarVic123</password>
+    <rol>0</rol>
   </Cuenta>
 
   <!-- Cuenta ADMIN-->
@@ -29,5 +32,6 @@
     <email>a20300695@ceti.mx</email>
     <telefono>3231231</telefono>
     <password>MikuElote</password>
+    <rol>1</rol>
   </Cuenta>
-</Cuentas>
+<Cuenta><nombre>1</nombre><apellido>1</apellido><email>1</email><telefono>1</telefono><password>1</password><rol>0</rol></Cuenta></Cuentas>

@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo $doc->saveXML();
     $doc->save("Datos/Pago.xml");
 
-    header("location: index.html");
+    header("location: index.php");
     exit();
 }
 

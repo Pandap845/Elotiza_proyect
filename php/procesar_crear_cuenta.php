@@ -13,6 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $telefono = $_POST['telefono'];
     $password = $_POST['password'];
+    $rol = 0;
 
     // Nombre del archivo donde se guardarán todas las cuentas
     $archivo = "Datos/cuentas.xml";
@@ -38,11 +39,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cuenta->appendChild($doc->createElement("email", $email));
     $cuenta->appendChild($doc->createElement("telefono", $telefono));
     $cuenta->appendChild($doc->createElement("password", $password));
+    $cuenta->appendChild($doc->createElement("rol", $rol));
 
 
     //Guardar cambios
     $doc->save($archivo); // Guarda el documento XML actualizado
 
-    header("location: index.html");
+    header("location: index.php");
 }
 

@@ -8,6 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //variables
     $email = $_POST['email'];
     $password = $_POST['password']; 
+    $rol = 0;
 
     $doc = new DOMDocument();
     $doc->load("Datos/cuentas.xml");
@@ -34,6 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //Comprobar si existe coincidencia. 
         if ($email == $emailXML && $password == $passwordXML) {
             $encontrado = true;
+            $rol = $cuenta->getElementsByTagName("rol")->item(0)->nodeValue;
             break;
         }
     }
@@ -45,10 +47,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Autenticación exitosa, generar token de sesión
         session_start();
         $_SESSION['usuario'] = $email;
-        $_SESSION['token'] = bin2hex(random_bytes(16)); // Generar un token aleatorio
+        $_SESSION['token'] = bin2hex(random_bytes(16));// Generar un token aleatorio
+        $_SESSION['rol'] = $rol;
 
         // Redirigir al usuario a una página segura
-        header('Location: index.html');
+        header('Location: index.php');
         exit;
     } else {
         // Falló la autenticación, redirigir o manejar de otra manera

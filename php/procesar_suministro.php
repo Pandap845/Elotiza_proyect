@@ -2,7 +2,7 @@
 
 session_start();
 
-if($_SESSION['usuario'] != 'a20300695@ceti.mx')
+if($_SESSION['rol'] != '1')
 {
     echo 'ERROR: NO ES ADMIN';
     return;
@@ -76,7 +76,7 @@ $doc->save($archivo);
 $doc->save($archivo);
 
 //Regresar a la pagina principal
- header("location: index.html");
+ header("location: index.php");
  exit();
 
 }

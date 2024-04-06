@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Carrito>
+  <ElementoCarrito>
+    <Cantidad>5</Cantidad>
+    <Elote>1</Elote>
+    <Toppings>
+      <Topping>2</Topping>
+      <Topping>3</Topping>
+    </Toppings>
+  </ElementoCarrito>
+<ElementoCarrito><Cantidad>5</Cantidad><Elote>1</Elote><Toppings><Topping>2</Topping><Topping>3</Topping></Toppings></ElementoCarrito></Carrito>

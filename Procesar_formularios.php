@@ -20,6 +20,9 @@ function redireccionarSegunFormulario($idFormulario, $datos) {
         case 'lote':
             require 'php/procesar_suministro.php';
             break;
+        case 'RealizarPedido':
+            require 'php/procesar_RealizarPedido.php';
+            break;
         default:
             echo "Identificador de formulario no reconocido.";
             break;
