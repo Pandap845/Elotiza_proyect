@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DetallesPedido>
+  <Cuenta>
+    <Email>a20300695@ceti.mx</Email>
+    <Direccion>
+      <Ciudad>1</Ciudad>
+      <Colonia>1</Colonia>
+      <Calle>1</Calle>
+      <NumeroExterior>1</NumeroExterior>
+      <NumeroInterior>1</NumeroInterior>
+    </Direccion>
+    <Pago>
+      <NumeroTarjeta>1</NumeroTarjeta>
+      <NombreTarjeta>1</NombreTarjeta>
+      <Vencimiento>0001-01-01</Vencimiento>
+      <CCV>1</CCV>
+    </Pago>
+  </Cuenta>
+  <Carrito>
+  <ElementoCarrito>
+    <Cantidad>32</Cantidad>
+    <Elote>3</Elote>
+    <Toppings>
+      <Topping>2</Topping>
+    </Toppings>
+  </ElementoCarrito>
+  <ElementoCarrito>
+    <Cantidad>32</Cantidad>
+    <Elote>2</Elote>
+    <Toppings>
+      <Topping>1</Topping>
+    </Toppings>
+  </ElementoCarrito>
+</Carrito>
+</DetallesPedido>

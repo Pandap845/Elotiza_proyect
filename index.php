@@ -20,42 +20,82 @@
     </header>
 
     <nav>
-        <div class="container">
-            <ul>
-                <li><a  data-translate="inicio" href="#inicio">Inicio</a></li>
-                <li><a  data-translate="productos"  href="#productos">Personaliza tu elote</a></li>
-                <li><a  data-translate="carrito" href="#Carrito">Ir al carrito</a></li>
-                <li><a  data-translate="CrearCuenta" href="#CrearCuenta">Crear una Cuenta</a></li>
-                <li><a  data-translate="Iniciarsesio" href="#IniciarSesion">Inicio de Sesion</a></li>
-                <li><a  data-translate="contacto" href="#contacto">Contacto</a></li>
+            <?php
+
+
+            session_start();
+
+            if($_SESSION['usuario'] == null)
+            {
+                echo '
                 
-            </ul>
-        </div>
+                        <div class="container">
+                        <ul>
+                            <li><a  data-translate="CrearCuenta" href="#IniciarSesion">Crear una Cuenta</a></li>
+                            <li><a  data-translate="Iniciarsesio" href="#CrearCuenta">Inicio de Sesion</a></li>
+                        </ul>
+                        </div>
+
+                ';
+                
+            }
+            else
+            {
+                echo '
+                        <div class="container">
+                        <ul>
+                            <li><a  data-translate="inicio" href="#inicio">Inicio</a></li>
+                            <li><a  data-translate="productos"  href="#productos">Personaliza tu elote</a></li>
+                            <li><a  data-translate="carrito" href="#Carrito">Ir al carrito</a></li>
+                            <li><a  data-translate="contacto" href="#contacto">Contacto</a></li>
+                            <li><a  data-translate="Iniciarsesio" href="php/procesar_cerrar_sesion.php">Cerrar Sesion</a></li>
+                            
+                        </ul>
+                        </div>
+                ';
+            }
+
+            ?>
+
+
     </nav>
 
     <h1>
         <?php
-
-
-        session_start();
         
-        if($_SESSION['rol'] != '1')
+        if($_SESSION['rol'] == '0')
         {
-            echo 'Bienvenido Usuario!';
+            $bienvenida = "Bienvenido Usuario, " . $_SESSION['usuario'];
+            echo $bienvenida;
             
         }
         else if ($_SESSION['rol'] == '1')
         {
-            echo 'Bienvenido Administrador!';
+            $bienvenida = "Bienvenido Administrador, " . $_SESSION['usuario'];
+            echo $bienvenida;
             
         }
         else
         {
-            echo 'Debes Iniciar sesion!';
+            echo 'Por Favor, Inicia Sesion o Crea una cuenta!';
         }
 
         ?>
     </h1>
+
+    <?php
+    if ($_SESSION['usuario'] == null) 
+    {
+        echo '<section>';
+    }
+    else
+    {
+        echo '<section hidden>';
+    }
+
+    ?>
+
+
 
     <div class="main-content">
 
@@ -109,6 +149,20 @@
 
         </section>
 
+        </section>
+
+
+    <?php
+    if ($_SESSION['usuario'] == null) 
+    {
+        echo '<section hidden>';
+    }
+    else
+    {
+        echo '<section>';
+    }
+
+    ?>
 
 
 
@@ -125,7 +179,7 @@
             <form action="Procesar_formularios.php" method="post">
                 <input type="hidden" name="formularioId" value="carrito">
             <div class="container">
-                <h2 data-translate="produx">Cuatos Elotes te gustaria ordenar?</h2>
+                <h2 data-translate="produx">Cuantos Elotes te gustaria ordenar?</h2>
             <br>
                 <input type="number" name ="cantidad" required="" placeholder="0"/>                  
                   <br>
@@ -474,6 +528,8 @@
 
 
         </Seccion>
+
+        </section>
 
         <section id="contacto">
             <div class="container">

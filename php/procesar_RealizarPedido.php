@@ -45,12 +45,13 @@ foreach ($doc->getElementsByTagName("Cuenta") as $pago) {
         if($pago->getElementsByTagName("Email")->item(0)->nodeValue == $_SESSION['usuario'])
         {
             $PagoActual = $doc->importNode($pago, true);
+            break;
         }
         else
         {
-            echo "ERROR: No has agregado un metodo de pago";
-            exit();
+            $PagoActual = "";
         }
+
 
     } 
     else
@@ -61,13 +62,19 @@ foreach ($doc->getElementsByTagName("Cuenta") as $pago) {
 
 }
 
+    if ($PagoActual == "")
+    {
+        echo "ERROR: No has agregado un metodo de pago";
+        exit();
+    }
+
     $archivo = "Datos/carrito".$_SESSION['usuario'].".xml";
 
     if (file_exists($archivo) && filesize($archivo) > 0) {
         $doc2 = new DOMDocument("1.0", "UTF-8");
         $doc2->load($archivo); // Carga el archivo existente
         $carritoActual = $doc2->getElementsByTagName("Carrito")->item(0); // Obtiene el elemento raíz
-
+        unlink($archivo); // eliminamos el archivo de este carrito
 
         $archivo = "Datos/PedidoPagadoDe".$_SESSION['usuario'].bin2hex(random_bytes(16)).".xml"; // en esta parte creamos un nombre para el archivo de el pedido, se usa el numero aleatorio ya que:
         //Puede funcionar un "Numero de folio" del pedido y a la vez, ya que un usuario puede realizar varios pedidos, y cada pedido pagado debe ser inalterable, pues creamos documentos distintos cada vez

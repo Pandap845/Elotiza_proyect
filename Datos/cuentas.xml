@@ -34,4 +34,12 @@
     <password>MikuElote</password>
     <rol>1</rol>
   </Cuenta>
-<Cuenta><nombre>1</nombre><apellido>1</apellido><email>1</email><telefono>1</telefono><password>1</password><rol>0</rol></Cuenta></Cuentas>
+  <Cuenta>
+    <nombre>1</nombre>
+    <apellido>1</apellido>
+    <email>1</email>
+    <telefono>1</telefono>
+    <password>1</password>
+    <rol>0</rol>
+  </Cuenta>
+</Cuentas>

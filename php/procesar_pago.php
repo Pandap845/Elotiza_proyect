@@ -37,18 +37,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
  if (file_exists($archivo) && filesize($archivo) > 0) {
     $doc = new DOMDocument("1.0", "UTF-8");
     $doc->load($archivo); // Carga el archivo existente
-    $root = $doc->getElementsByTagName("Suministros")->item(0); // Obtiene el elemento raíz
+    $root = $doc->getElementsByTagName("DireccionPago")->item(0); // Obtiene el elemento raíz
 } else { //En caso contrario,
     $doc = new DOMDocument("1.0", "UTF-8");
     $doc->formatOutput = true;
-    $root = $doc->createElement("Suministros");
+    $root = $doc->createElement("DireccionPago");
     $doc->appendChild($root);
 }
 
 
-    //Raíz del archivo XML
-    $root = $doc->createElement("DireccionPago");
-    $doc->appendChild($root);
 
 
     //Se almacena una dirección para cada Cuenta
