@@ -24,15 +24,15 @@
 
 
             session_start();
-
+            
             if($_SESSION['usuario'] == null)
             {
                 echo '
                 
                         <div class="container">
                         <ul>
-                            <li><a  data-translate="CrearCuenta" href="#IniciarSesion">Crear una Cuenta</a></li>
-                            <li><a  data-translate="Iniciarsesio" href="#CrearCuenta">Inicio de Sesion</a></li>
+                            <li><a  data-translate="CrearCuenta" href="#CrearCuenta">Crear una Cuenta</a></li>
+                            <li><a  data-translate="Iniciarsesio" href="#IniciarSesion">Inicio de Sesion</a></li>
                         </ul>
                         </div>
 
@@ -128,7 +128,7 @@
         </section>
     </div>
     <div>
-        <section id="CrearCuenta">
+        <section id="IniciarSesion">
 
             <div class= "formulario_Crear_Cuenta">
                 <h1>Con que ya eres catador de Elotes?</h1>

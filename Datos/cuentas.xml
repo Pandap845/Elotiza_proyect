@@ -24,7 +24,6 @@
     <password>MarVic123</password>
     <rol>0</rol>
   </Cuenta>
-
   <!-- Cuenta ADMIN-->
   <Cuenta>
     <nombre>Senior</nombre>
