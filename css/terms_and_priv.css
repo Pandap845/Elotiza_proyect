@@ -1,0 +1,43 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1;
+    margin: 0;
+    
+    height: 100%;
+    
+}
+
+header, section {
+    background: #7F7FD5;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+    color: white;
+}
+header, nav, section, footer {
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+header img{
+    max-height:150px;
+    max-width:150px;
+}
+h1 {
+    color: #333;
+    
+}
+
+h2 {
+    color: black;
+    padding: 10px;
+}
+h3 {
+    color: #333;
+    padding: 15px;
+}
+
+p {
+    color: #444;
+    padding: 20px;
+}

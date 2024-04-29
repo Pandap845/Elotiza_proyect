@@ -556,8 +556,11 @@
             <p data-translate="pie">2024 La Elotiza. Todos los derechos reservados.</p>
         </div>
         <div class="container">
-            <p><button id="btnEspanol">Español</button></p>
-            <p><button id="btnIngles">English</button></p>
+            <a href="Terms.html">Terminos y Condiciones</a>
+        </div>
+        <br>
+        <div class="container">
+            <a href="Priv.html">Aviso de Privacidad</a>
         </div>
     </footer>
 </body>
