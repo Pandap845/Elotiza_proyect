@@ -180,82 +180,91 @@
                 <input type="hidden" name="formularioId" value="carrito">
             <div class="container">
                 <h2 data-translate="produx">Cuantos Elotes te gustaria ordenar?</h2>
+                    <br>
+            
+                <input type="number" name ="cantidad" required="" placeholder="0" />                  
             <br>
-                <input type="number" name ="cantidad" required="" placeholder="0"/>                  
-                  <br>
             </div>
-            <h2 data-translate="TipoElote">Elige el tipo de Elote</h2>
+            <h2>Elige el tipo de Elote</h2>
 
             <div class="Elote-container">
-                <div class="Elote" >
-                    <img src="img/Esquite.jpg" alt="Esquite">
-                    <h3 data-translate="pastel1">Equite</h3>
-                    <p data-translate="pastel1des">La presentacion mas clasica de los elotes en todo Jalisco</p>
-                    <p class="precio">$25.00</p>
-                    <input type="radio" name = "Telote" value = "1"></input>
-                </div>
-                <div class="Elote">
-                    <img src="img/Cocido.jpg" alt="Cocido">
-                    <h3>Cocido</h3>
-                    <p>Blandito y perfecto para comerse a mordiscos</p>
-                    <p class="precio">$20.00</p>
-                    <input type="radio" name = "Telote" value = "2" ></input>
-                </div>
-                <div class="Elote">
-                    <img src="img/Asado.jpg" alt="Asado">
-                    <h3>Asado</h3>
-                    <p>Tostadito, con un toque a brasas</p>
-                    <p class="precio">$35.00</p>
-                    <input type="radio" name = "Telote" value = "3"></input>
-                </div>
-                <div class="Elote">
-                    <img src="img/Hervido.jpg" alt="Hervido">
-                    <h3>Hervido</h3>
-                    <p>Si el cocido estaba blandito, el hervido ya casi se esta deshaciendo</p>
-                    <p class="precio">$30.00</p>
-                    <input type="radio" name = "Telote" value = "4"></input>
-                </div>
+    <div class="Elote-card">
+        <input type="radio" name="Telote" value="1" class="Elote-radio">
+        <img src="img/Esquite.jpg" alt="Esquite" class="Elote-img">
+        <div class="Elote-info">
+            <h3>Esquite</h3>
+            <p class="precio">$25.00</p>
+        </div>
+    </div>
+    <div class="Elote-card">
+        <input type="radio" name="Telote" value="2" class="Elote-radio">
+        <img src="img/Cocido.jpg" alt="Cocido" class="Elote-img">
+        <div class="Elote-info">
+            <h3>Cocido</h3>
+            <p class="precio">$20.00</p>
+        </div>
+    </div>
+    <div class="Elote-card">
+        <input type="radio" name="Telote" value="3" class="Elote-radio">
+        <img src="img/Asado.jpg" alt="Asado" class="Elote-img">
+        <div class="Elote-info">
+            <h3>Asado</h3>
+            <p class="precio">$35.00</p>
+        </div>
+    </div>
+    <div class="Elote-card">
+        <input type="radio" name="Telote" value="4" class="Elote-radio">
+        <img src="img/Hervido.jpg" alt="Hervido" class="Elote-img">
+        <div class="Elote-info">
+            <h3>Hervido</h3>
+            <p class="precio">$30.00</p>
+        </div>
+    </div>
+</div>
 
-                  
-            </div>
             <br>
                   <h2 data-translate="Toppings">Elige los Toppings</h2>
                   <br>
             <div class="Elote-container">
-                <div class="Topping">
-                    <img src="img/Crema.jpg" alt="Crema">
-                    <h3 data-translate="pastel1">Crema</h3>
-                    <p data-translate="pastel1des">Mucha crema para que amarre</p>
-                    <p class="precio">$5.00</p>
-                    <input type="checkbox" name = "top[]" value = "1" ></input>
+                <div class="Elote-card">
+                    <input type="checkbox" name = "top[]" value = "1" class="Elote-radio" >
+                    <img src="img/Crema.jpg" alt="Crema" class="Elote-img">
+                    <div class="Elote-info">
+                        <h3>Crema</h3>
+                        <p class="precio">$5.00</p>
+                    </div>
                 </div>
-                <div class="Topping">
-                    <img src="img/Queso.jpg" alt="Queso">
-                    <h3>Queso</h3>
-                    <p>Sin queso, ni si quiera se puede llamar elote</p>
-                    <p class="precio">$10.00</p>
-                    <input type="checkbox" name = "top[]" value = "2"></input>
+                <div class="Elote-card">
+                    <input type="checkbox" name = "top[]" value = "2" class="Elote-radio">
+                    <img src="img/Queso.jpg" alt="Queso" class="Elote-img">
+                    <div class="Elote-info">
+                        <h3>Queso</h3>
+                        <p class="precio">$10.00</p>
+                    </div>
                 </div>
-                <div class="Topping">
-                    <img src="img/Mantequilla.jpg" alt="Mantequilla">
-                    <h3>mantequilla</h3>
-                    <p>Solo la mantequilla puede dejar mas amarillo a un elote</p>
-                    <p class="precio">$5.00</p>
-                    <input type="checkbox" name = "top[]" value = "3"></input>
+                <div class="Elote-card">
+                    <input type="checkbox" name = "top[]" value = "3" class="Elote-radio">
+                    <img src="img/Mantequilla.jpg" alt="Mantequilla" class="Elote-img">
+                    <div class="Elote-info">
+                        <h3>Mantequilla</h3>
+                        <p class="precio">$5.00</p>
+                    </div>
                 </div>
-                <div class="Topping">
-                    <img src="img/Sal.jpg" alt="Sal">
-                    <h3>Sal</h3>
-                    <p>La especia mas simple y perfecta del planeta</p>
-                    <p class="precio">$3.00</p>
-                    <input type="checkbox" name = "top[]" value = "4"></input>
+                <div class="Elote-card">
+                    <input type="checkbox" name = "top[]" value = "4">
+                    <img src="img/Sal.jpg" alt="Sal" class="Elote-img">
+                    <div class="Elote-info">
+                        <h3>Sal</h3>
+                        <p class="precio">$3.00</p>
+                    </div>
                 </div>
-                <div class="Topping">
-                    <img src="img/Mayonesa.jpg" alt="Mayonesa">
-                    <h3>Mayonesa</h3>
-                    <p>Ma-yo-ne-sa</p>
-                    <p class="precio">$10.00</p>
-                    <input type="checkbox" name = "top[]" value = "5"></input>
+                <div class="Elote-card">
+                    <input type="checkbox" name = "top[]" value = "5">
+                    <img src="img/Mayonesa.jpg" alt="Mayonesa" class="Elote-img">
+                    <div class="Elote-info">
+                        <h3>Mayonesa</h3>
+                        <p class="precio">$10.00</p>
+                    </div>
                 </div>
 
             </div>
@@ -470,7 +479,7 @@
 
             <h2>Tu carrito de compras: </h2>
 
-            <div class="Elote-container">
+            <div class="Carrito-container">
 
             
 

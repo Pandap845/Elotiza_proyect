@@ -76,9 +76,9 @@ input[type=submit] {
 	}
 }
 input[type=number] {
-	width: 3em;
+	width: auto;
 	padding: 0.5em;
-	border: .2em solid #50dcff;
+	border: .5em solid #50dcff;
 	border-radius: 1em;
 	text-align: center;
 	color: #4961e7;
@@ -90,7 +90,7 @@ input[type=number] {
 	}
 }
 input[type=radio], input[type=checkbox] {
-    align-tracks: center;
+    align-tracks:center;
 	appearance: none;
   background-color: #fff;
   margin: 0;
@@ -170,15 +170,47 @@ footer .container a{
 }
 
 img {
-    max-width: 300px;
+    max-width: 350px;
 }
 
 #Elote {
     background-color: #f8f8f8;
     padding: 40px 0;
 }
+.Elote-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.Elote-card:hover{
+    background-color: #eee;
+}
+.Elote-card {
+    display: flex;
+    align-items: center; /* Alinea los elementos internos verticalmente */
+    border: 1px solid #ccc; /* Borde para cada tarjeta */
+    padding: 10px;
+    background-color: #f9f9f9;
+    width: au;
+    border-radius: 15px;
+}
 
+.Elote-radio {
+    margin-right: 50px;
+}
+
+.Elote-img {
+    max-width: 100px; /* Ajusta según la necesidad */
+    max-height: 100px;
+    margin-right: 10px;
+    margin-left: 20px;
+}
+
+.Elote-info {
+    flex-grow: 1;
+}
 .Elote {
+    flex-direction: row;
     flex: 0 0 auto;
     margin-right: 20px;
     background-color: #fff;
@@ -189,6 +221,10 @@ img {
     text-align: center;
     min-width: 30%;
     min-height: 400px;
+    
+}
+.Elote:hover{
+    background-color: #ddd;
     
 }
 .Topping {
@@ -223,7 +259,7 @@ img {
 }
 
 .Elote img {
-    max-width: 150px;
+    max-width: 350px;
     max-height: 150px;
     min-width: 150px;
     min-height: 150px;
@@ -231,7 +267,7 @@ img {
     margin-bottom: 10px;
 }
 .Topping img {
-    max-width: 150px;
+    max-width: 350px;
     max-height: 150px;
     min-width: 150px;
     min-height: 150px;
@@ -243,7 +279,7 @@ img {
     color: #e44d26;
 }
 
-.Elote-container {
+.Carrito-container {
     display: flex;
     flex-wrap: nowrap; 
     overflow-x: auto; 
