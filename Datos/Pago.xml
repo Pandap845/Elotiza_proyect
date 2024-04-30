@@ -32,4 +32,4 @@
       <CCV>123</CCV>
     </Pago>
   </Cuenta>
-<Cuenta><Email>a20300695@ceti.mx</Email><Direccion><Ciudad>1</Ciudad><Colonia>1</Colonia><Calle>1</Calle><NumeroExterior>1</NumeroExterior><NumeroInterior>1</NumeroInterior></Direccion><Pago><NumeroTarjeta>1</NumeroTarjeta><NombreTarjeta>1</NombreTarjeta><Vencimiento>0001-01-01</Vencimiento><CCV>1</CCV></Pago></Cuenta></DireccionPago>
+<Cuenta><Email>a20300695@ceti.mx</Email><Direccion><Ciudad>1</Ciudad><Colonia>1</Colonia><Calle>1</Calle><NumeroExterior>1</NumeroExterior><NumeroInterior>1</NumeroInterior></Direccion><Pago><NumeroTarjeta>1</NumeroTarjeta><NombreTarjeta>1</NombreTarjeta><Vencimiento>0001-01-01</Vencimiento><CCV>1</CCV></Pago></Cuenta><Cuenta><Email>hola@gmail</Email><Direccion><Ciudad>1</Ciudad><Colonia>1</Colonia><Calle>1</Calle><NumeroExterior>1</NumeroExterior><NumeroInterior>1</NumeroInterior></Direccion><Pago><NumeroTarjeta>1</NumeroTarjeta><NombreTarjeta>1</NombreTarjeta><Vencimiento>2024-04-29</Vencimiento><CCV>1</CCV></Pago></Cuenta></DireccionPago>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Carrito>
+  <ElementoCarrito>
+    <Cantidad>2</Cantidad>
+    <Elote>1</Elote>
+    <Toppings>
+      <Topping>2</Topping>
+      <Topping>3</Topping>
+      <Topping>4</Topping>
+    </Toppings>
+  </ElementoCarrito>
+<ElementoCarrito><Cantidad>3</Cantidad><Elote>2</Elote><Toppings><Topping>2</Topping><Topping>3</Topping><Topping>4</Topping></Toppings></ElementoCarrito><ElementoCarrito><Cantidad>4</Cantidad><Elote>3</Elote><Toppings><Topping>1</Topping><Topping>3</Topping><Topping>4</Topping></Toppings></ElementoCarrito><ElementoCarrito><Cantidad>2</Cantidad><Elote>4</Elote><Toppings><Topping>4</Topping><Topping>5</Topping></Toppings></ElementoCarrito></Carrito>

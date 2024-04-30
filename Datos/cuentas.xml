@@ -41,4 +41,4 @@
     <password>1</password>
     <rol>0</rol>
   </Cuenta>
-</Cuentas>
+<Cuenta><nombre>a</nombre><apellido>a</apellido><email>a</email><telefono>a</telefono><password>a</password><rol>0</rol></Cuenta><Cuenta><nombre>Raymundo</nombre><apellido>Gamez</apellido><email>hola@gmail</email><telefono>22222222</telefono><password>123</password><rol>0</rol></Cuenta></Cuentas>

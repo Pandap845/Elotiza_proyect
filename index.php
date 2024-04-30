@@ -226,35 +226,35 @@
                     <img src="img/Crema.jpg" alt="Crema">
                     <h3 data-translate="pastel1">Crema</h3>
                     <p data-translate="pastel1des">Mucha crema para que amarre</p>
-                    <p class="precio">$10.00</p>
+                    <p class="precio">$5.00</p>
                     <input type="checkbox" name = "top[]" value = "1" ></input>
                 </div>
                 <div class="Topping">
                     <img src="img/Queso.jpg" alt="Queso">
                     <h3>Queso</h3>
                     <p>Sin queso, ni si quiera se puede llamar elote</p>
-                    <p class="precio">$15.00</p>
+                    <p class="precio">$10.00</p>
                     <input type="checkbox" name = "top[]" value = "2"></input>
                 </div>
                 <div class="Topping">
                     <img src="img/Mantequilla.jpg" alt="Mantequilla">
                     <h3>mantequilla</h3>
                     <p>Solo la mantequilla puede dejar mas amarillo a un elote</p>
-                    <p class="precio">$20.00</p>
+                    <p class="precio">$5.00</p>
                     <input type="checkbox" name = "top[]" value = "3"></input>
                 </div>
                 <div class="Topping">
                     <img src="img/Sal.jpg" alt="Sal">
                     <h3>Sal</h3>
                     <p>La especia mas simple y perfecta del planeta</p>
-                    <p class="precio">$20.00</p>
+                    <p class="precio">$3.00</p>
                     <input type="checkbox" name = "top[]" value = "4"></input>
                 </div>
                 <div class="Topping">
                     <img src="img/Mayonesa.jpg" alt="Mayonesa">
                     <h3>Mayonesa</h3>
                     <p>Ma-yo-ne-sa</p>
-                    <p class="precio">$20.00</p>
+                    <p class="precio">$10.00</p>
                     <input type="checkbox" name = "top[]" value = "5"></input>
                 </div>
 
@@ -471,48 +471,147 @@
             <h2>Tu carrito de compras: </h2>
 
             <div class="Elote-container">
-                <div class="Topping">
-                    <h3 data-translate="pastel1">Orden 1</h3>
-                    <p data-translate="pastel1des">Tipo de Elote:</p>
-                    <p data-translate="pastel1des">Asado</p>
-                    <p data-translate="pastel1des">Topping:</p>
-                    <p data-translate="pastel1des">Crema</p>
-                    <p data-translate="pastel1des">Queso</p>
-                    <p data-translate="pastel1des">Sal</p>
-                    <p data-translate="pastel1des">Cantidad de elotes:</p>
-                    <p data-translate="pastel1des">3</p>
-                    <p data-translate="pastel1des">Precio total:</p>
-                    <p class="precio">$250.00</p> <!--Assencion to heaven-->
-                    <input type = "submit" value="Borrar"/>
-                </div>
-                <div class="Topping">
-                    <h3 data-translate="pastel1">Orden 1</h3>
-                    <p data-translate="pastel1des">Tipo de Elote:</p>
-                    <p data-translate="pastel1des">Asado</p>
-                    <p data-translate="pastel1des">Topping:</p>
-                    <p data-translate="pastel1des">Crema</p>
-                    <p data-translate="pastel1des">Queso</p>
-                    <p data-translate="pastel1des">Sal</p>
-                    <p data-translate="pastel1des">Cantidad de elotes:</p>
-                    <p data-translate="pastel1des">3</p>
-                    <p data-translate="pastel1des">Precio total:</p>
-                    <p class="precio">$250.00</p> <!--Assencion to heaven-->
-                    <input type = "submit" value="Borrar"/>
-                </div>
-                <div class="Topping">
-                    <h3 data-translate="pastel1">Orden 1</h3>
-                    <p data-translate="pastel1des">Tipo de Elote:</p>
-                    <p data-translate="pastel1des">Asado</p>
-                    <p data-translate="pastel1des">Topping:</p>
-                    <p data-translate="pastel1des">Crema</p>
-                    <p data-translate="pastel1des">Queso</p>
-                    <p data-translate="pastel1des">Sal</p>
-                    <p data-translate="pastel1des">Cantidad de elotes:</p>
-                    <p data-translate="pastel1des">3</p>
-                    <p data-translate="pastel1des">Precio total:</p>
-                    <p class="precio">$250.00</p> <!--Assencion to heaven-->
-                    <input type = "submit" value="Borrar"/>
-                </div>
+
+            <?php
+
+                    $doc = new DOMDocument();
+                    $dir = "Datos/carrito". $_SESSION['usuario'].".xml";
+                    
+                    if(file_exists($dir))
+                    {
+                        
+                        $doc->load("Datos/carrito". $_SESSION['usuario'].".xml");
+                        
+
+                        foreach ($doc->getElementsByTagName("ElementoCarrito") as $ob) 
+                        {
+                            $precioTotal = 0;         
+                            echo'
+                            
+                            <div class="Topping">
+                            <h3 data-translate="pastel1">Orden</h3>
+                            ';
+                            echo '<p data-translate="pastel1des">Tipo de Elote:</p> ';
+                            $Telote = $ob->getElementsByTagName("Elote")->item(0)->nodeValue;
+                            switch($Telote)
+                            {
+                                case 1:
+                                    {
+                                        echo "Esquite";
+                                        $precioTotal = $precioTotal + 25;
+                                        break;
+                                    }
+                                    case 2:
+                                        {
+                                            echo "Cocido";
+                                            $precioTotal = $precioTotal + 20;
+                                            break;
+                                        }
+                                        case 3:
+                                            {
+                                                echo "Asado";
+                                                $precioTotal = $precioTotal + 35;
+                                                break;
+                                            }
+                                            case 4:
+                                                {
+                                                    echo "Hervido";
+                                                    $precioTotal = $precioTotal + 30;
+                                                    break;
+                                                }
+                                                default:
+                                                    {
+                                                        echo "?";
+                                                        break;
+                                                    }
+                                    
+                            }                        
+                            echo ' <p data-translate="pastel1des">Cantidad de elotes:</p>';
+                            $cantidad = $ob->getElementsByTagName("Cantidad")->item(0)->nodeValue;
+                            echo $cantidad;
+                            echo ' <p data-translate="pastel1des">Toppings:</p>';
+
+
+                            foreach ($ob->getElementsByTagName("Toppings") as $tp)
+                            {
+                                $top = $tp->nodeValue;
+                                switch($top)
+                                {
+                                    case 1:
+                                        {
+                                            echo "Crema";
+                                            $precioTotal = $precioTotal + 5;
+                                            break;
+                                        }
+                                        case 2:
+                                            {
+                                                echo "Queso";
+                                                $precioTotal = $precioTotal + 10;
+                                                break;
+                                            }
+                                            case 3:
+                                                {
+                                                    echo "Mantequilla";
+                                                    $precioTotal = $precioTotal + 5;
+                                                    break;
+                                                }
+                                                case 4:
+                                                    {
+                                                        echo "Sal";
+                                                        $precioTotal = $precioTotal + 3;
+                                                        break;
+                                                    }
+                                                    case 5:
+                                                        {
+                                                            echo "Mayonesa";
+                                                            $precioTotal = $precioTotal + 10;
+                                                            break;
+                                                        }
+                                                        default:
+                                                            {
+                                                                echo $top;
+                                                                break;
+                                                            }
+                                }
+                            }
+
+                            echo '<p data-translate="pastel1des">Precio total:</p>';
+                            echo $precioTotal;
+                            echo '</div> ';
+
+
+                            
+
+
+
+                        }
+
+
+                       
+                        
+                        
+                        //<p data-translate="pastel1des">Crema</p>
+                        //<p data-translate="pastel1des">Queso</p>
+                        //<p data-translate="pastel1des">Sal</p>
+
+                        //<p data-translate="pastel1des">3</p>
+                        
+                        //<p class="precio">$250.00</p> <!--Assencion to heaven-->
+                        
+
+
+                    }
+                    else
+                    {
+                        echo ' <h2 data-translate="vacio">Esta Vacio :(</h2>';
+                    }
+
+            ?>
+
+
+
+
+                
             </div>
             <form action="Procesar_formularios.php" method="post">
 
