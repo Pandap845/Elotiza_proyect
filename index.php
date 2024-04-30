@@ -472,6 +472,8 @@
 
             <div class="Elote-container">
 
+            
+
             <?php
 
                     $doc = new DOMDocument();
@@ -482,13 +484,15 @@
                         
                         $doc->load("Datos/carrito". $_SESSION['usuario'].".xml");
                         
-
+                        $index_elemento=0;
                         foreach ($doc->getElementsByTagName("ElementoCarrito") as $ob) 
-                        {
+                        { 
+                            $index_elemento++;
                             $precioTotal = 0;         
                             echo'
                             
                             <div class="Topping">
+                            
                             <h3 data-translate="pastel1">Orden</h3>
                             ';
                             echo '<p data-translate="pastel1des">Tipo de Elote:</p> ';
@@ -534,7 +538,7 @@
                             //Acceder al elemento Toppings
                           $top =  $ob->getElementsByTagName("Toppings");
 
-
+                                
                           //Iterar sobre todos los eementos de TOppings: que son cada uno de los topping
 
                             foreach ($top as $tp)
@@ -580,12 +584,21 @@
                                                             }
                                 }
                             }
-
+                           
                             echo '<p data-translate="pastel1des">Precio total:</p>';
+                           
                             echo $precioTotal;
+                            
+                            echo'  <br>  <form action="Procesar_formularios.php" method="post">
+
+                            <input type="hidden" name="IdElemento" value="<?php $index_elemento ?>">
+            
+                        <input type = "submit" value="RealizarPedido"/>
+            
+                        </form>';
                             echo '</div> ';
-
-
+                            
+                                
                             
 
 
