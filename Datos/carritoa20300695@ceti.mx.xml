@@ -14,4 +14,4 @@
       <Topping>1</Topping>
     </Toppings>
   </ElementoCarrito>
-</Carrito>
+<ElementoCarrito><Cantidad>23</Cantidad><Elote>1</Elote><Toppings><Topping>1</Topping><Topping>2</Topping></Toppings></ElementoCarrito><ElementoCarrito><Cantidad>4</Cantidad><Elote>3</Elote><Toppings><Topping>2</Topping></Toppings></ElementoCarrito><ElementoCarrito><Cantidad>43</Cantidad><Elote>2</Elote><Toppings><Topping>1</Topping></Toppings></ElementoCarrito></Carrito>

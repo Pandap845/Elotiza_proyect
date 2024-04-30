@@ -531,11 +531,17 @@
                             echo $cantidad;
                             echo ' <p data-translate="pastel1des">Toppings:</p>';
 
+                            //Acceder al elemento Toppings
+                          $top =  $ob->getElementsByTagName("Toppings");
 
-                            foreach ($ob->getElementsByTagName("Toppings") as $tp)
+
+                          //Iterar sobre todos los eementos de TOppings: que son cada uno de los topping
+
+                            foreach ($top as $tp)
                             {
-                                $top = $tp->nodeValue;
-                                switch($top)
+                                   $id_tp = $tp->nodeValue;
+
+                                switch($id_tp)
                                 {
                                     case 1:
                                         {
@@ -569,7 +575,7 @@
                                                         }
                                                         default:
                                                             {
-                                                                echo $top;
+                                                                echo $id_tp;
                                                                 break;
                                                             }
                                 }
