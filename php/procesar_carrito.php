@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['usuario'])) {
     // Ruta del archivo donde se guardará el carrito del usuario
     $usuario = $_SESSION['usuario']; // Sanitización básica
     $archivo = "Datos/carrito" . $usuario . ".xml"; // Nombre de archivo único por usuario
-
+    
     // Cargar o inicializar el documento XML
     $doc = new DOMDocument("1.0", "UTF-8");
     if (file_exists($archivo) && filesize($archivo) > 0) {
@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['usuario'])) {
 
     // Crear elementos para el carrito
     $elementoCarrito = $doc->createElement("ElementoCarrito");
+    $elementoCarrito->setAttribute("id", uniqid()); 
     $root->appendChild($elementoCarrito);
 
     $elementoCarrito->appendChild($doc->createElement("Cantidad", $cantidad));

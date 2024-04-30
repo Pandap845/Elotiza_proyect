@@ -4,69 +4,48 @@ session_start();
 
 /*
     ARCHIVO: procesar_suministro.php
-    Función: encargado de administrar la cantidad de ltoes de suministros que se poseen para realizar los elotes
+    Función: encargado de administrar la cantidad de lotes de suministros que se poseen para realizar los elotes
 */
 
-if($_SERVER['REQUEST_METHOD'] == "POST")
-{
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    // Variables
+    $idElemento = $_POST['IdElemento'];  // Asegúrate de que este es el nombre correcto del campo en el formulario
+    $usuario = $_SESSION['usuario'];
 
-//Variables
- $lote = $_POST['IdElemento'];
+    $archivo = "Datos/carrito" . $usuario . ".xml";
 
+    // Control del XML
+    $doc = new DOMDocument();
+    $doc->formatOutput = true;
 
- $archivo = "Datos/Suministros.xml";
+    // Verificar si el archivo existe y no está vacío
+    if (file_exists($archivo) && filesize($archivo) > 0) {
+        $doc->load($archivo); // Carga el archivo existente
+        $carrito = $doc->getElementsByTagName("Carrito")->item(0); // Obtiene el elemento raíz
 
- //Control del XML
- $doc = new DOMDocument();
- $doc->formatOutput = true;
+        $elementoEncontrado = false;
+        $elementos = $doc->getElementsByTagName("ElementoCarrito");
+        foreach ($elementos as $elemento) {
+            if ($elemento->getAttribute("id") == $idElemento) {
+                $carrito->removeChild($elemento);  // Elimina el elemento del documento
+                $elementoEncontrado = true;
+                break;
+            }
+        }
 
- //Verificar la existencia de un archivo de suministros
-
-
- // Verificar si el archivo existe y no está vacío
- if (file_exists($archivo) && filesize($archivo) > 0) {
-     $doc = new DOMDocument("1.0", "UTF-8");
-     $doc->load($archivo); // Carga el archivo existente
-     $root = $doc->getElementsByTagName("Suministros")->item(0); // Obtiene el elemento raíz
- } else { //En caso contrario,
-     $doc = new DOMDocument("1.0", "UTF-8");
-     $doc->formatOutput = true;
-     $root = $doc->createElement("Suministros");
-     $doc->appendChild($root);
- }
-
- $Suministro = $doc->createElement("Suministro");
-//Agregar los elementos del lote
-$loteElement = $doc->createElement("Lote", $lote);
-$Suministro->appendChild($loteElement);
-
-// Repetir el proceso para los demás elementos
-$descripcionElement = $doc->createElement("Descripcion", $descripcionLote);
-$Suministro->appendChild($descripcionElement);
-
-$cantidadElement = $doc->createElement("Cantidad", $cantidadElementos);
-$Suministro->appendChild($cantidadElement);
-
-$costoElement = $doc->createElement("Costo", $costoLote);
-$Suministro->appendChild($costoElement);
-
-$ubicacionElement = $doc->createElement("Ubicacion", $ubicacionLote);
-$Suministro->appendChild($ubicacionElement);
-
-$caducidadElement = $doc->createElement("Caducidad", $caducidadLote);
-$Suministro->appendChild($caducidadElement);
-
-// Finalmente, añadir <Suministro> al elemento raíz <Suministros>
-$root->appendChild($Suministro);
-
-// Guardar el archivo XML
-$doc->save($archivo);
-
-//Guardar el archivo XML
-$doc->save($archivo);
-
-//Regresar a la pagina principal
- header("location: index.php");
- exit();
-
+        if ($elementoEncontrado) {
+            // Guardar los cambios en el archivo XML
+            $doc->save($archivo);
+            // Redirigir al usuario a la página principal
+            header("Location: index.php");
+            exit();
+        } else {
+            echo "Error: Elemento no encontrado.";
+        }
+    } else {
+        echo "Error: El archivo no existe o está vacío.";
+    }
+} else {
+    echo "Error: Método de solicitud incorrecto.";
 }
+?>

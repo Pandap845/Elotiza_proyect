@@ -485,9 +485,10 @@
                         $doc->load("Datos/carrito". $_SESSION['usuario'].".xml");
                         
                         $index_elemento=0;
+                        $usuario=$_SESSION['usuario'];
                         foreach ($doc->getElementsByTagName("ElementoCarrito") as $ob) 
                         { 
-                            $index_elemento++;
+                            $index_elemento = $ob->getAttribute("id");
                             $precioTotal = 0;         
                             echo'
                             
@@ -591,7 +592,8 @@
                             
                             echo'  <br>  <form action="Procesar_formularios.php" method="post">
 
-                            <input type="hidden" name="IdElemento" value="<?php $index_elemento ?>">
+                           
+                            <input type="hidden" name="IdElemento" value="' . $index_elemento . '">
                             <input type="hidden" name="formularioId" value="CambiarCarrito">
             
                         <input type = "submit" value="Borrar"/>
