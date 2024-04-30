@@ -23,6 +23,9 @@ function redireccionarSegunFormulario($idFormulario, $datos) {
         case 'RealizarPedido':
             require 'php/procesar_RealizarPedido.php';
             break;
+        case 'CambiarCarrito':
+            require 'php/Actualizar_Carrito.php';
+            break;
         default:
             echo "Identificador de formulario no reconocido.";
             break;
