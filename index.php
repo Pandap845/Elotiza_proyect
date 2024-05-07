@@ -227,7 +227,7 @@
                   <br>
             <div class="Elote-container">
                 <div class="Elote-card">
-                    <input type="checkbox" name = "top[]" value = "1" class="Elote-radio" >
+                    <input type="radio" name = "top[]" value = "1" class="Elote-radio" >
                     <img src="img/Crema.jpg" alt="Crema" class="Elote-img">
                     <div class="Elote-info">
                         <h3>Crema</h3>
@@ -235,7 +235,7 @@
                     </div>
                 </div>
                 <div class="Elote-card">
-                    <input type="checkbox" name = "top[]" value = "2" class="Elote-radio">
+                    <input type="radio" name = "top[]" value = "2" class="Elote-radio">
                     <img src="img/Queso.jpg" alt="Queso" class="Elote-img">
                     <div class="Elote-info">
                         <h3>Queso</h3>
@@ -243,7 +243,7 @@
                     </div>
                 </div>
                 <div class="Elote-card">
-                    <input type="checkbox" name = "top[]" value = "3" class="Elote-radio">
+                    <input type="radio" name = "top[]" value = "3" class="Elote-radio">
                     <img src="img/Mantequilla.jpg" alt="Mantequilla" class="Elote-img">
                     <div class="Elote-info">
                         <h3>Mantequilla</h3>
@@ -251,7 +251,7 @@
                     </div>
                 </div>
                 <div class="Elote-card">
-                    <input type="checkbox" name = "top[]" value = "4">
+                    <input type="radio" name = "top[]" value = "4">
                     <img src="img/Sal.jpg" alt="Sal" class="Elote-img">
                     <div class="Elote-info">
                         <h3>Sal</h3>
@@ -259,7 +259,7 @@
                     </div>
                 </div>
                 <div class="Elote-card">
-                    <input type="checkbox" name = "top[]" value = "5">
+                    <input type="radio" name = "top[]" value = "5">
                     <img src="img/Mayonesa.jpg" alt="Mayonesa" class="Elote-img">
                     <div class="Elote-info">
                         <h3>Mayonesa</h3>
