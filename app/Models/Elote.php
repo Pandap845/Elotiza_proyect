@@ -21,9 +21,4 @@ class Elote extends Model
         return $this->hasMany(DetallePedido::class);
     }
 
-    // Relación con Toppings
-    public function toppings()
-    {
-        return $this->belongsToMany(Topping::class, 'toppings', 'elote_id', 'topping_id');
-    }
 }

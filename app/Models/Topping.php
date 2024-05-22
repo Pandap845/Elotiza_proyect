@@ -19,9 +19,6 @@ class Topping extends Model
     ];
 
       // Relación con Elote a través de tabla pivote
-      public function elotes()
-      {
-          return $this->belongsToMany(Elote::class, 'toppings', 'topping_id', 'elote_id');
-      }
+    
 
 }

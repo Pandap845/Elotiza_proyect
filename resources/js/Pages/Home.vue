@@ -10,11 +10,11 @@
           <div class="Elote-container">
             <!-- Bucle para mostrar los tipos de elote -->
             <div class="Elote-card" v-for="elote in elotes" :key="elote.id">
-              <input type="radio" v-model="order.eloteId" :value="elote.id">
-              <img :src="elote.image" :alt="elote.name" class="Elote-img">
+              <input type="checkbox" v-model="order.elotes" :value="elote.id">
+              <img :src="elote.imagen" :alt="elote.nombre" class="Elote-img">
               <div class="Elote-info">
-                <h3>{{ elote.name }}</h3>
-                <p class="precio">${{ elote.price }}</p>
+                <h3>{{ elote.nombre }}</h3>
+                <p class="precio">${{ elote.precio }}</p>
               </div>
             </div>
           </div>
@@ -23,10 +23,10 @@
             <!-- Bucle para mostrar los toppings -->
             <div class="Elote-card" v-for="topping in toppings" :key="topping.id">
               <input type="checkbox" v-model="order.toppings" :value="topping.id">
-              <img :src="topping.image" :alt="topping.name" class="Elote-img">
+              <img :src="topping.imagen" :alt="topping.nombre" class="Elote-img">
               <div class="Elote-info">
-                <h3>{{ topping.name }}</h3>
-                <p class="precio">${{ topping.price }}</p>
+                <h3>{{ topping.nombre }}</h3>
+                <p class="precio">${{ topping.precio }}</p>
               </div>
             </div>
           </div>
@@ -42,7 +42,7 @@
       return {
         order: {
           quantity: 1,
-          eloteId: null,
+          elotes: [],
           toppings: []
         },
         elotes: [],

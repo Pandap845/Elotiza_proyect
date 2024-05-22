@@ -1,5 +1,7 @@
 import './bootstrap';
 import '../css/app.css';
+import '../css/custom.css';  // Importa tu archivo CSS personalizado
+
 
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';

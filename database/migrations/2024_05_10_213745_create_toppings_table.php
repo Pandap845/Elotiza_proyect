@@ -1,5 +1,5 @@
-<?php
 
+<?php
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,18 +13,15 @@ return new class extends Migration
     {
         Schema::create('toppings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('elote_id')->constrained()->onDelete('cascade');
-            $table->foreignId('topping_id')->constrained()->onDelete('cascade');
+           
             $table->string('nombre');
-            $table->string('precio');
-            $table->string("imagen");
+            $table->decimal('precio', 8, 2);
+            $table->string('imagen')->nullable();
             $table->timestamps();
+            $table->engine = 'InnoDB'; // Asegurando InnoDB
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('toppings');

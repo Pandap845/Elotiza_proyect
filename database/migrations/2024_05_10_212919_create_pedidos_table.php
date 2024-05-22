@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('estado')->default('pendiente'); // ej. pendiente, completado
             $table->timestamps();
         });
-        
     }
 
     /**
