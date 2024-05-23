@@ -12,7 +12,8 @@ class Elote extends Model
     protected $fillable = [
         'nombre',
         'precio',
-        'imagen'
+        'imagen',
+        'cantidad'
     ];
 
     // Relación con DetallePedido

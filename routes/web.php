@@ -25,10 +25,16 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::get('/Home', function () {
+
+//Rutas de las páginas
+Route::get('/home', function () {
     return Inertia::render('Home');
 });
 
+
+Route::get('/suministros', function () {
+    return Inertia::render('PaginaSuministros');
+});
 
 
 

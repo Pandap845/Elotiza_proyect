@@ -15,10 +15,9 @@ class Topping extends Model
     protected $fillable = [
         'nombre',
         'precio',
-        'imagen'
+        'imagen',
+        'cantidad'
     ];
 
-      // Relación con Elote a través de tabla pivote
     
-
 }
