@@ -32,9 +32,6 @@ Route::get('/home', function () {
 });
 
 
-Route::get('/suministros', function () {
-    return Inertia::render('PaginaSuministros');
-});
 
 
 
@@ -43,12 +40,35 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
+//-----------------------------
 //Rutas de los controladores
+
+
+//-------------------
+//Toppings
 Route::resource('toppings', ToppingController::class);
 Route::get('/api/toppings', [ToppingController::class, 'index']);
+
+
+//----------------------
+//Elotes
+
+Route::resource('elotes', EloteController::class);
 Route::get('/api/elotes', [EloteController::class, 'index']);
+
+//------------------
+//solicitudes
+
 Route::post('/api/cart/add', [CarritoController::class, 'store']);
+
+
+//--------------------
+//Suministros
+Route::get('/suministros', [EloteController::class,'suministros'])->name('suministros');;
+
+//------------------------
+//Suministros (combinación de elotes y toppings)
+
 //Rutas personalizadas
 
 

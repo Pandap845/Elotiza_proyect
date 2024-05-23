@@ -14,9 +14,9 @@ class EloteSeeder extends Seeder
 
         //Elotes de ejemplo
         $elotes = [
-            ['nombre' => 'Elote Cocido', 'precio' => 20.00, 'imagen' => 'images/Cocido.jpg'],
-            ['nombre' => 'Elote Hervido', 'precio' => 25.00, 'imagen' => 'images/Hervido.jpg'],
-            ['nombre' => 'Esquite', 'precio' => 30.00, 'imagen' => 'images/Esquite.jpg']
+            ['nombre' => 'Elote Cocido', 'precio' => 20.00, 'imagen' => 'images/Cocido.jpg', 'cantidad' => 10],
+            ['nombre' => 'Elote Hervido', 'precio' => 25.00, 'imagen' => 'images/Hervido.jpg','cantidad' => 10],
+            ['nombre' => 'Esquite', 'precio' => 30.00, 'imagen' => 'images/Esquite.jpg','cantidad' => 10]
             
             
         ];

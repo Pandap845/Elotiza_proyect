@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Elote;
+use App\Models\Topping;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,12 +16,28 @@ class EloteController extends Controller
      */
     public function index()
     {
-        // Accede a la base de datos para obtener todos los elotes
-        $elotes = Elote::all();
-        
-        // Retorna la vista con los elotes obtenidos
-        return Inertia::render('Home', ['elotes' => $elotes]);
+       
+    $elotes = Elote::all(); // Cargar elotes con sus toppings
+
+    return Inertia::render('Home', [
+        'elotes' => $elotes,
+        'toppings' => Topping::all(), // También pasar los toppings
+    ]);
     }
+
+    public function suministros()
+    {
+        $elotes = Elote::all(); // Cargar elotes con sus toppings
+        $toppings = Topping::all();
+        return Inertia::render('PaginaSuministros', [
+            'elotes' => $elotes,
+            'toppings' => $toppings, // También pasar los toppings
+        ]);
+    }
+
+    
+
+
     /**
      * Show the form for creating a new resource.
      */
