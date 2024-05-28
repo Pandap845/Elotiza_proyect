@@ -1,9 +1,9 @@
 <template>
-    <Head title="Editar Elote" />
+    <Head title="Crear Elote" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Editar Elote</h2>
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Crear Elote</h2>
         </template>
 
         <div class="py-12">
@@ -22,11 +22,16 @@
                             </div>
 
                             <div class="mb-4">
+                                <label for="cantidad" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Cantidad</label>
+                                <input type="number" v-model="form.cantidad" class="mt-1 block w-full" id="cantidad" required>
+                            </div>
+
+                            <div class="mb-4">
                                 <label for="imagen" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Imagen (URL)</label>
                                 <input type="text" v-model="form.imagen" class="mt-1 block w-full" id="imagen">
                             </div>
 
-                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Actualizar Elote</button>
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Crear Elote</button>
                         </form>
                     </div>
                 </div>
@@ -37,19 +42,17 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useForm, usePage } from '@inertiajs/vue3';
-
-const { props } = usePage();
-const elote = props.elote;
+import { useForm } from '@inertiajs/vue3';
 
 const form = useForm({
-    nombre: elote.nombre,
-    precio: elote.precio,
-    imagen: elote.imagen
+    nombre: '',
+    precio: '',
+    imagen: '',
+    cantidad: ''
 });
 
 const submit = () => {
-    form.put(route('elotes.update', elote.id));
+    form.post(route('elotes.store'));
 };
 </script>
 

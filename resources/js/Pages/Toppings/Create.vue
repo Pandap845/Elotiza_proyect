@@ -1,9 +1,9 @@
 <template>
-    <Head title="Editar Elote" />
+    <Head title="Crear Topping" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Editar Elote</h2>
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Crear Topping</h2>
         </template>
 
         <div class="py-12">
@@ -22,37 +22,42 @@
                             </div>
 
                             <div class="mb-4">
-                                <label for="imagen" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Imagen (URL)</label>
-                                <input type="text" v-model="form.imagen" class="mt-1 block w-full" id="imagen">
+                                <label for="cantidad" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Cantidad</label>
+                                <input type="number" v-model="form.cantidad" class="mt-1 block w-full" id="cantidad" required>
                             </div>
 
-                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Actualizar Elote</button>
+                            <div class="mb-4">
+                                <label for="imagen" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Imagen(Url)</label>
+                                <input type="text" v-model="form.imagen" class="mt-1 block w-full" id="cantidad" required>
+                            </div>
+
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Crear Topping</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </AuthenticatedLayout>
+    
 </template>
 
 <script setup>
+//funcionalidad básica
 import { ref } from 'vue';
-import { useForm, usePage } from '@inertiajs/vue3';
-
-const { props } = usePage();
-const elote = props.elote;
+import { useForm } from '@inertiajs/vue3';
 
 const form = useForm({
-    nombre: elote.nombre,
-    precio: elote.precio,
-    imagen: elote.imagen
+    nombre: '',
+    precio: '',
+    cantidad: '',
+    imagen: ''
 });
 
 const submit = () => {
-    form.put(route('elotes.update', elote.id));
+    form.post(route('toppings.store'));
 };
 </script>
 
 <style scoped>
-/* Puedes agregar estilos personalizados aquí si es necesario */
+
 </style>

@@ -9,27 +9,25 @@ use Inertia\Inertia;
 
 class EloteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */  /**
-     * Display a listing of the resource.
-     */
+    /*Mostrar listado de elotes*/
     public function index()
     {
        
     $elotes = Elote::all(); // Cargar elotes con sus toppings
 
-    return Inertia::render('Home', [
+    return Inertia::render('Elote/Index', [
         'elotes' => $elotes,
-        'toppings' => Topping::all(), // También pasar los toppings
+        
     ]);
     }
 
-    public function suministros()
+
+    /*Mostrar listado de elotes y toppings*/
+    public function supplies()
     {
         $elotes = Elote::all(); // Cargar elotes con sus toppings
         $toppings = Topping::all();
-        return Inertia::render('PaginaSuministros', [
+        return Inertia::render('Supplies', [
             'elotes' => $elotes,
             'toppings' => $toppings, // También pasar los toppings
         ]);
@@ -39,7 +37,7 @@ class EloteController extends Controller
 
 
     /**
-     * Show the form for creating a new resource.
+     * Presenta el formulario básico de creación de Elotes
      */
     public function create()
     {
@@ -47,7 +45,7 @@ class EloteController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Almacena un recurso en la base de datos
      */
     public function store(Request $request)
     {
@@ -56,18 +54,19 @@ class EloteController extends Controller
             'nombre' => 'required|string|max:255',
             'precio' => 'required|numeric',
             'imagen' => 'nullable|string',
+            'cantidad' => 'required|numeric'
         ]);
 
         // Crea un nuevo elote en la base de datos
         Elote::create($request->all());
 
         // Redirige al índice de elotes
-        return redirect()->route('elotes.index');
+        return redirect()->route('supplies');
     }
-
-    /**
-     * Display the specified resource.
-     */
+/**
+ * 
+ * Mostrar un recurso en específico
+ */
     public function show(Elote $elote)
     {
         // Retorna la vista con el elote específico
@@ -75,7 +74,7 @@ class EloteController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Mostrar el formulario básico para actualizar un elote
      */
     public function edit(Elote $elote)
     {
@@ -83,8 +82,11 @@ class EloteController extends Controller
         return Inertia::render('Elotes/Edit', ['elote' => $elote]);
     }
 
+
+
     /**
-     * Update the specified resource in storage.
+     * 
+     * Actualiza el registro del eelote en la base de datos
      */
     public function update(Request $request, Elote $elote)
     {
@@ -93,17 +95,18 @@ class EloteController extends Controller
             'nombre' => 'required|string|max:255',
             'precio' => 'required|numeric',
             'imagen' => 'nullable|string',
+            'cantidad' => 'nullable|numeric'
         ]);
 
         // Actualiza el elote en la base de datos
         $elote->update($request->all());
 
         // Redirige al índice de elotes
-        return redirect()->route('elotes.index');
+        return redirect()->route('supplies');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina el recurso de la base de datos
      */
     public function destroy(Elote $elote)
     {
@@ -111,6 +114,6 @@ class EloteController extends Controller
         $elote->delete();
 
         // Redirige al índice de elotes
-        return redirect()->route('elotes.index');
+        return redirect()->route('supplies');
     }
 }

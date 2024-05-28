@@ -20,7 +20,7 @@ class ToppingController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     *
      */
     public function create()
     {
@@ -28,7 +28,7 @@ class ToppingController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     *Almacena un topping recien creado
      */
     public function store(Request $request)
     {
@@ -37,17 +37,17 @@ class ToppingController extends Controller
             'nombre' => 'required|string|max:255',
             'precio' => 'required|numeric',
             'imagen' => 'nullable|string',
+            'cantidad' => 'required|numeric'
         ]);
 
         // Crea un nuevo topping en la base de datos
         Topping::create($request->all());
-
         // Redirige al índice de toppings
-        return redirect()->route('toppings.index');
+        return redirect()->route('supplies');
     }
 
     /**
-     * Display the specified resource.
+     * Muestra los toppings existentes
      */
     public function show(Topping $topping)
     {
@@ -65,7 +65,7 @@ class ToppingController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza un topping en la base de datos
      */
     public function update(Request $request, Topping $topping)
     {
@@ -80,11 +80,11 @@ class ToppingController extends Controller
         $topping->update($request->all());
 
         // Redirige al índice de toppings
-        return redirect()->route('toppings.index');
+        return redirect()->route('supplies');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina un topping de la BD
      */
     public function destroy(Topping $topping)
     {
@@ -92,6 +92,6 @@ class ToppingController extends Controller
         $topping->delete();
 
         // Redirige al índice de toppings
-        return redirect()->route('toppings.index');
+        return redirect()->route('supplies');
     }
 }

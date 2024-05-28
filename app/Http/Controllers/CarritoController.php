@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Carrito;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+
 class CarritoController extends Controller
 {
     /**

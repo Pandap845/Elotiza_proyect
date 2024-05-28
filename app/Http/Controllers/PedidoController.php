@@ -2,21 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carrito;
 use App\Models\Pedido;
 use Illuminate\Http\Request;
+use App\Models\Elote;
+use App\Models\Topping;
+use Inertia\Inertia;
 
 class PedidoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Mostrar listado de: Carrito, elotes y toppings
      */
     public function index()
     {
-        //
+        $elotes = Elote::all(); // Cargar elotes con sus toppings
+        $toppings = Topping::all();
+        return Inertia::render('Compras/Pedido', [
+            'elotes' => $elotes,
+            'toppings' => $toppings, // También pasar los toppings
+            
+        ]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Creación de pedidos
      */
     public function create()
     {
@@ -28,7 +38,7 @@ class PedidoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+    
     }
 
     /**

@@ -10,18 +10,23 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <form @submit.prevent="updateTopping">
+                        <form @submit.prevent="submit">
                             <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nombre</label>
-                                <input v-model="form.nombre" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-700" required />
+                                <label for="nombre" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nombre</label>
+                                <input type="text" v-model="form.nombre" class="mt-1 block w-full" id="nombre" required>
                             </div>
+
                             <div class="mb-4">
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Precio</label>
-                                <input v-model="form.precio" type="number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-gray-700" required />
+                                <label for="precio" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Precio</label>
+                                <input type="number" v-model="form.precio" class="mt-1 block w-full" id="precio" required>
                             </div>
-                            <div class="flex justify-end">
-                                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Actualizar</button>
+
+                            <div class="mb-4">
+                                <label for="cantidad" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Cantidad</label>
+                                <input type="number" v-model="form.cantidad" class="mt-1 block w-full" id="cantidad" required>
                             </div>
+
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Actualizar Topping</button>
                         </form>
                     </div>
                 </div>
@@ -31,17 +36,23 @@
 </template>
 
 <script setup>
-import { usePage, router } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import { useForm, usePage } from '@inertiajs/vue3';
 
 const { props } = usePage();
 const topping = props.topping;
 
 const form = useForm({
-    nombre: topping.nombre || '',
-    precio: topping.precio || '',
+    nombre: topping.nombre,
+    precio: topping.precio,
+    cantidad: topping.cantidad
 });
 
-const updateTopping = () => {
+const submit = () => {
     form.put(route('toppings.update', topping.id));
 };
 </script>
+
+<style scoped>
+
+</style>
