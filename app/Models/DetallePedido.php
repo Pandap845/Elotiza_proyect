@@ -12,7 +12,6 @@ class DetallePedido extends Model
     protected $fillable = [
         'pedido_id',
         'elote_id',
-        'topping_id',
         'cantidad',
         'precio'
     ];
@@ -28,8 +27,8 @@ class DetallePedido extends Model
         return $this->belongsTo(Elote::class);
     }
 
-    public function topping()
+    public function toppings()
     {
-        return $this->belongsTo(Topping::class);
+        return $this->belongsToMany(Topping::class, 'detalle_pedido_topping')->withPivot('cantidad', 'precio');
     }
 }

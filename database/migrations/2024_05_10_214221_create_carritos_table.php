@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('elote_id')->constrained()->onDelete('cascade');
-            $table->foreignId('topping_id')->constrained()->onDelete('cascade');
+        
             $table->integer('cantidad');
             $table->timestamps();
         });

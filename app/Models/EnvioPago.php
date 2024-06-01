@@ -20,10 +20,8 @@ class EnvioPago extends Model
         'calle',
         'numero_exterior',
         'numero_interior',
-        'metodo_pago',
         'email_paypal',
         'paypal_id',
-        'monto',
         'estado'
     ];
 

@@ -16,7 +16,6 @@ class Carrito extends Model
     protected $fillable = [
         'user_id',
         'elote_id',
-        'topping_id',
         'cantidad'
     ];
 
@@ -33,10 +32,10 @@ class Carrito extends Model
     }
 
 //Define la relación con el modelo Topping
-public function topping()
+public function toppings()
 {
-    return $this->belongsTo(Topping::class);
+    return $this->belongsToMany(Topping::class, 'carrito_topping')
+        ->withPivot('cantidad', 'precio');
 }
-
 
 }

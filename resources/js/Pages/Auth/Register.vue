@@ -29,9 +29,9 @@ const submit = () => {
 
         <!-- Contenido -->
         <div class="relative z-10 min-h-screen flex flex-col items-center justify-center">
-            <form @submit.prevent="submit" class="w-full max-w-md p-6 bg-white bg-opacity-75 rounded-lg shadow-md dark:bg-gray-800 dark:bg-opacity-75">
+            <form @submit.prevent="submit" class="w-full max-w-xl p-8 bg-white bg-opacity-75 rounded-lg shadow-md dark:bg-gray-800 dark:bg-opacity-75">
                 <div>
-                    <InputLabel for="name" value="Name" />
+                    <InputLabel for="name" value="Nombre" />
 
                     <TextInput
                         id="name"
@@ -62,7 +62,7 @@ const submit = () => {
                 </div>
 
                 <div class="mt-4">
-                    <InputLabel for="password" value="Password" />
+                    <InputLabel for="password" value="Contraseña" />
 
                     <TextInput
                         id="password"
@@ -77,7 +77,7 @@ const submit = () => {
                 </div>
 
                 <div class="mt-4">
-                    <InputLabel for="password_confirmation" value="Confirm Password" />
+                    <InputLabel for="password_confirmation" value="Repetir contraseña" />
 
                     <TextInput
                         id="password_confirmation"
@@ -96,11 +96,11 @@ const submit = () => {
                         :href="route('login')"
                         class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                     >
-                        Already registered?
+                        ¿Posee una cuenta?
                     </Link>
 
                     <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                        Register
+                        Crear cuenta
                     </PrimaryButton>
                 </div>
             </form>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\DetallePedidoController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\ToppingController;
 use App\Http\Controllers\EnvioPagoController;
 use App\Http\Controllers\EloteController;
@@ -58,19 +59,17 @@ Route::resource('elotes', EloteController::class); //CRUD
 
 //----------------------
 // pedidos y envíos
-Route::resource('pedidos', PedidoController::class); //CRUD
+
+Route::middleware('auth')->group(function () {
+    Route::resource('solicitud', SolicitudController::class);
+    Route::delete('solicitud/{id}', [SolicitudController::class, 'destroy'])->name('solicitud.destroy');
+    Route::resource('pedidos', PedidoController::class); //CRUD
 Route::resource('detalles', DetallePedidoController::class); //CRUD
 Route::resource('envios', EnvioPagoController::class); //CRUD
 
 
+});
 //------------------------
-//Carrito
-Route::resource('carritos', CarritoController::class); //CRUD
-
-
-
-
-
 
 //-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.
 //---------------------------
@@ -82,7 +81,6 @@ Route::get('/supplies', [EloteController::class, 'supplies'])->name('supplies');
 //Compras y carrito
 
 
-Route::get('/pedido', [PedidoController::class,'index'])->name('pedido');
 
 
 

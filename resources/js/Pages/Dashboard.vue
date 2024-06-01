@@ -37,7 +37,7 @@ const irASuministros  = () => {
 
 
 const irAPedidos = () => {
-    router.visit('/pedido');
+    router.visit('solicitud');
 
 }
 

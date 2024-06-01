@@ -5,72 +5,94 @@ namespace App\Http\Controllers;
 use App\Models\Carrito;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Auth;
+use App\Models\Elote;
+use App\Models\Topping;
 
 class CarritoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Constructor para aplicar el middleware de autenticación
+    public function __construct()
+    {
+      // $this->middleware('auth');
+    }
+
+    // Método para mostrar la lista de carritos del usuario autenticado
     public function index()
     {
-        // Accede a la base de datos para obtener todos los carritos
-        $carritos = Carrito::with('elote', 'topping')->get();
-        // Retorna la vista con los carritos obtenidos
-        return Inertia::render('Carritos/Index', ['carritos' => $carritos]);
+        $elotes = Elote::all(); // Cargar elotes con sus toppings
+        $toppings = Topping::all();
+        return Inertia::render('Compras/Pedido', [
+            'elotes' => $elotes,
+            'toppings' => $toppings, // También pasar los toppings
+            
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Método para mostrar los pedidos del usuario autenticado
+    public function pedido()
+    {
+        $user_id = Auth::id();
+        $carritos = Carrito::with('elote', 'topping')->where('user_id', $user_id)->get();
+        $elotes = Elote::all(); // Cargar elotes con sus toppings
+        $toppings = Topping::all();
+        if ($carritos->isEmpty()) {
+            return Inertia::render('Compras/Pedido', [
+                'carritos' => [],
+                'message' => 'No se encontraron carritos',
+                'elotes' => $elotes,
+                'toppings' => $toppings
+            ]);
+        }
+    
+        return Inertia::render('Compras/Pedido', ['carritos' => $carritos,  'elotes' => $elotes,
+        'toppings' => $toppings]);
+    }
+    
+    // Método para mostrar el formulario de creación de un nuevo carrito
     public function create()
     {
-        return Inertia::render('Carritos/Create');
+        return Inertia::render('Compras/Pedido');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Método para almacenar un nuevo carrito en la base de datos
     public function store(Request $request)
     {
-        // Valida la solicitud
         $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'elote_id' => 'required|exists:elotes,id',
-            'topping_id' => 'required|exists:toppings,id',
-            'cantidad' => 'required|integer|min:1',
+            'items' => 'required|array',
+            'items.*.elote_id' => 'required|exists:elotes,id',
+            'items.*.cantidad' => 'required|integer|min:1',
+            'items.*.topping_id' => 'nullable|exists:toppings,id',
         ]);
 
-        // Crea un nuevo carrito en la base de datos
-        Carrito::create($request->all());
+        $user_id = Auth::id();
+        foreach ($request->items as $item) {
+            Carrito::create([
+                'user_id' => $user_id,
+                'elote_id' => $item['elote_id'],
+                'topping_id' => $item['topping_id'] ?? null,
+                'cantidad' => $item['cantidad']
+            ]);
+        }
 
-        // Redirige al índice de carritos
-        return redirect()->route('carritos.index');
+        return redirect()->route('');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // Método para mostrar un carrito específico
     public function show(Carrito $carrito)
     {
-        // Retorna la vista con el carrito específico
         return Inertia::render('Carritos/Show', ['carrito' => $carrito->load('elote', 'topping')]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    // Método para mostrar el formulario de edición de un carrito
     public function edit(Carrito $carrito)
     {
-        // Retorna la vista de edición con el carrito específico
         return Inertia::render('Carritos/Edit', ['carrito' => $carrito]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // Método para actualizar un carrito específico en la base de datos
     public function update(Request $request, Carrito $carrito)
     {
-        // Valida la solicitud
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'elote_id' => 'required|exists:elotes,id',
@@ -78,22 +100,16 @@ class CarritoController extends Controller
             'cantidad' => 'required|integer|min:1',
         ]);
 
-        // Actualiza el carrito en la base de datos
         $carrito->update($request->all());
 
-        // Redirige al índice de carritos
         return redirect()->route('carritos.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Método para eliminar un carrito específico de la base de datos
     public function destroy(Carrito $carrito)
     {
-        // Elimina el carrito de la base de datos
         $carrito->delete();
 
-        // Redirige al índice de carritos
         return redirect()->route('carritos.index');
     }
 }

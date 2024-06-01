@@ -19,5 +19,15 @@ class Topping extends Model
         'cantidad'
     ];
 
+
+    public function carritos()
+    {
+        return $this->belongsToMany(Carrito::class, 'carrito_topping')->withPivot('cantidad');
+    }
+
+    public function detallePedidos()
+    {
+        return $this->belongsToMany(DetallePedido::class, 'detalle_pedido_topping')->withPivot('cantidad');
+    }
     
 }
