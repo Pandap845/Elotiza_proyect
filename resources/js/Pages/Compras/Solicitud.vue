@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { usePage, router } from '@inertiajs/vue3';
-
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 const { props } = usePage();
 const elotes = props.elotes || [];
 const toppings = props.toppings || [];
@@ -12,7 +12,6 @@ let selectedToppings = ref([]);
 let eloteQuantity = ref(1);
 
 const error = ref(null);
-
 const AgregarAlCarrito = async () => {
     let items = [];
 
@@ -20,7 +19,7 @@ const AgregarAlCarrito = async () => {
         items.push({
             elote_id: eloteId,
             cantidad: eloteQuantity.value,
-            toppings: selectedToppings.value.map(toppingId => ({ id: toppingId, cantidad: 1 }))
+            toppings: selectedToppings.value.map(toppingId => ({ id: toppingId, cantidad: eloteQuantity.value }))
         });
     });
 
@@ -29,13 +28,20 @@ const AgregarAlCarrito = async () => {
     if (items.length > 0) {
         try {
             const response = await router.post(route('solicitud.store'), { items });
-            console.log('Response:', response);
-            carrito.value = response.props.carritos;
+           
+            resetForm(); // Restablece el formulario después de agregar al carrito
         } catch (error) {
             console.error('Error al agregar al carrito:', error);
         }
     }
 };
+
+const resetForm = () => {
+    selectedElotes.value = [];
+    selectedToppings.value = [];
+    eloteQuantity.value = 1;
+};
+
 
 const EliminarDelCarrito = async (index) => {
     try {
@@ -47,10 +53,9 @@ const EliminarDelCarrito = async (index) => {
     }
 };
 
-//Redigir para realizar el pago
+// Redirigir para realizar el pago
 const IrPedido = () => {   
     router.visit('pedidos');
-
 };
 
 onMounted(() => {
@@ -64,22 +69,23 @@ onMounted(() => {
     <AuthenticatedLayout>
         <Head title="Pedidos" />
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Suministros</h2>
+            <h2 class="font-extrabold text-6xl text-gray-800 dark:text-gray-200 leading-tight text-shadow-custom">Arme su pedido</h2>
         </template>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <img src="/storage/images/logo1.jpg" alt="Logo" class="mb-4 lg:px-20">
                         <form @submit.prevent="AgregarAlCarrito">
-                            <p class="text-6xl font-semibold mb-2">¡Solicitar elotes!</p>
+                            <p class="text-4xl font-semibold mb-2">¡Solicitar elotes!</p>
                             <div class="mb-4">
-                                <label for="eloteQuantity" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Cantidad de elotes:</label>
+                                <label for="eloteQuantity" class="block text-2xl text-gray-700 dark:text-gray-300">Cantidad de elotes:</label>
                                 <input type="number" id="eloteQuantity" v-model.number="eloteQuantity" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
                             </div>
                             <div class="mb-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                
                                 <template v-for="elote in elotes" :key="elote.id">
-                                    <label class="flex items-center justify-between border-2 rounded-md p-4 bg-white dark:bg-gray-700 text-black dark:text-white" :class="{ 'bg-blue-100 border-blue-500': selectedElotes.includes(elote.id) }">
+                                    <label class="flex flex-col items-center border-2 rounded-md p-4 bg-white dark:bg-gray-700 text-black dark:text-white" :class="{ 'bg-blue-100 border-blue-500': selectedElotes.includes(elote.id) }">
+                                        <img :src="elote.imagen" alt="Elote Image" class="mb-4 w-full h-40 object-cover rounded">
                                         <div class="flex items-center">
                                             <input type="checkbox" :value="elote.id" v-model="selectedElotes" class="form-checkbox h-6 w-6 text-blue-600 rounded-md">
                                             <span class="ml-2 text-lg font-semibold">{{ elote.nombre }} - ${{ elote.precio }}</span>
@@ -87,10 +93,11 @@ onMounted(() => {
                                     </label>
                                 </template>
                             </div>
-                            <p class="text-1xl font-semibold mt-6 mb-2">Control de Elotes</p>
+                            <p class="text-2xl font-semibold mt-6 mb-2">Seleccione uno (o más) Toppings</p>
                             <div class="mb-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 <template v-for="topping in toppings" :key="topping.id">
-                                    <label class="flex items-center justify-between border-2 rounded-md p-4 bg-white dark:bg-gray-700 text-black dark:text-white" :class="{ 'bg-blue-100 border-blue-500': selectedToppings.includes(topping.id) }">
+                                    <label class="flex flex-col items-center border-2 rounded-md p-4 bg-white dark:bg-gray-700 text-black dark:text-white" :class="{ 'bg-blue-100 border-blue-500': selectedToppings.includes(topping.id) }">
+                                        <img :src="topping.imagen" alt="Topping Image" class="mb-4 w-full h-40 object-cover rounded">
                                         <div class="flex items-center">
                                             <input type="checkbox" :value="topping.id" v-model="selectedToppings" class="form-checkbox h-6 w-6 text-blue-600 rounded-md">
                                             <span class="ml-2 text-lg font-semibold">{{ topping.nombre }} - ${{ topping.precio }}</span>
@@ -173,5 +180,11 @@ onMounted(() => {
     display: inline-block;
     margin: 0.25rem;
     padding: 0.25rem 0.5rem;
+}
+</style>
+
+<style scoped>
+.text-shadow-custom {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 </style>

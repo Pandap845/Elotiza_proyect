@@ -22,6 +22,11 @@
                             </div>
 
                             <div class="mb-4">
+                                <label for="cantidad" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Cantidad</label>
+                                <input type="number" v-model="form.cantidad" class="mt-1 block w-full" id="cantidad" required>
+                            </div>
+
+                            <div class="mb-4">
                                 <label for="imagen" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Imagen (URL)</label>
                                 <input type="text" v-model="form.imagen" class="mt-1 block w-full" id="imagen">
                             </div>
@@ -45,7 +50,8 @@ const elote = props.elote;
 const form = useForm({
     nombre: elote.nombre,
     precio: elote.precio,
-    imagen: elote.imagen
+    imagen: elote.imagen,
+    cantidad : elote.cantidad
 });
 
 const submit = () => {

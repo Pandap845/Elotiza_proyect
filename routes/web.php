@@ -7,7 +7,9 @@ use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\ToppingController;
 use App\Http\Controllers\EnvioPagoController;
 use App\Http\Controllers\EloteController;
+
 use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\PayPalController;
 
 
 use Illuminate\Foundation\Application;
@@ -45,7 +47,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-//-----------------------------
+//-----------------------------administracion
 // Rutas de los controladores
 
 //-------------------
@@ -62,11 +64,24 @@ Route::resource('elotes', EloteController::class); //CRUD
 
 Route::middleware('auth')->group(function () {
     Route::resource('solicitud', SolicitudController::class);
-    Route::delete('solicitud/{id}', [SolicitudController::class, 'destroy'])->name('solicitud.destroy');
+  
     Route::resource('pedidos', PedidoController::class); //CRUD
 Route::resource('detalles', DetallePedidoController::class); //CRUD
 Route::resource('envios', EnvioPagoController::class); //CRUD
+Route::post('/confirmar-pedido', [PedidoController::class, 'confirmarPedido'])->name('confirmarPedido');
+Route::get('/pedido', [PayPalController::class, 'createTransaction'])->name('createTransaction');
+Route::post('/paypal/process-transaction', [PayPalController::class, 'processTransaction'])->name('processTransaction');
+Route::get('/paypal/success', [PayPalController::class, 'successTransaction'])->name('successTransaction');
+Route::get('/paypal/cancel', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
+Route::get('/historial', [PedidoController::class, 'historial'])->name('historial');
+Route::post('/pago/confirmar', [PayPalController::class, 'confirmarPago'])->name('confirmarPago');
+Route::get('/administracion', [PedidoController::class, 'administracion'])->name('administracion');
+Route::get('/administracion/detalle/{id}', [PedidoController::class, 'administracionDetalle'])->name('administracion.detalle');
+Route::put('/paypal/aceptar/{id}', [PayPalController::class, 'aceptar'])->name('paypal.aceptar');
+Route::put('/paypal/rechazar/{id}', [PayPalController::class, 'rechazar'])->name('paypal.rechazar');
+Route::put('/paypal/cancelar/{id}', [PayPalController::class, 'cancelar'])->name('paypal.cancelar');
 
+Route::post('/pedido/reembolsar', [PedidoController::class, 'reembolsar'])->name('pedido.reembolsar');
 
 });
 //------------------------

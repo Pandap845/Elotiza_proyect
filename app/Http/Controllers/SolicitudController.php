@@ -75,6 +75,13 @@ class SolicitudController extends Controller
        \Log::info('Usuario autenticado', ['user_id' => $user_id]);
    
        foreach ($request->items as $item) {
+           $elote = Elote::find($item['elote_id']);
+           if ($elote->cantidad < $item['cantidad']) {
+               return back()->withErrors(['msg' => 'No hay suficientes elotes en stock.']);
+           }
+           $elote->cantidad -= $item['cantidad'];
+           $elote->save();
+   
            $carrito = Carrito::create([
                'user_id' => $user_id,
                'elote_id' => $item['elote_id'],
@@ -86,6 +93,12 @@ class SolicitudController extends Controller
            if (isset($item['toppings'])) {
                foreach ($item['toppings'] as $topping) {
                    $toppingModel = Topping::find($topping['id']);
+                   if ($toppingModel->cantidad < $topping['cantidad']) {
+                       return back()->withErrors(['msg' => 'No hay suficientes toppings en stock.']);
+                   }
+                   $toppingModel->cantidad -= $topping['cantidad'];
+                   $toppingModel->save();
+   
                    $carrito->toppings()->attach($topping['id'], [
                        'cantidad' => $topping['cantidad'],
                        'precio' => $toppingModel->precio
@@ -102,8 +115,34 @@ class SolicitudController extends Controller
    
        // Log de finalización del proceso
        \Log::info('Proceso de agregar items al carrito completado', ['user_id' => $user_id]);
+       $user_id = Auth::id();
+       \Log::info('User ID:', ['user_id' => $user_id]);
    
-       return redirect()->route('solicitud.index');
+       $carritos = Carrito::with('elote', 'toppings')->where('user_id', $user_id)->get();
+       \Log::info('Carritos:', $carritos->toArray());
+   
+       $elotes = Elote::all();
+       \Log::info('Elotes:', $elotes->toArray());
+   
+       $toppings = Topping::all();
+       \Log::info('Toppings:', $toppings->toArray());
+   
+       foreach ($carritos as $carrito) {
+           // Calcular el precio total de los toppings
+           $totalToppingsPrice = $carrito->toppings->sum(function ($topping) {
+               return $topping->pivot->cantidad * $topping->pivot->precio;
+           });
+   
+           // Calcular el precio total del carrito
+           $carrito->precioTotal = ($carrito->elote->precio * $carrito->cantidad) + $totalToppingsPrice;
+       }
+   
+       return Inertia::render('Compras/Solicitud', [
+           'carritos' => $carritos,
+           'elotes' => $elotes,
+           'toppings' => $toppings
+       ]);
+    
    }
    
    // Método para mostrar un carrito específico

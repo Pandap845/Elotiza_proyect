@@ -26,6 +26,12 @@
                                 <input type="number" v-model="form.cantidad" class="mt-1 block w-full" id="cantidad" required>
                             </div>
 
+                            <div class="mb-4">
+                                <label for="imagen" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Imagen</label>
+                                <input type="number" v-model="form.imagen" class="mt-1 block w-full" id="imagen" required>
+                            </div>
+
+
                             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Actualizar Topping</button>
                         </form>
                     </div>
@@ -45,7 +51,8 @@ const topping = props.topping;
 const form = useForm({
     nombre: topping.nombre,
     precio: topping.precio,
-    cantidad: topping.cantidad
+    cantidad: topping.cantidad,
+    imagen: topping.imagen
 });
 
 const submit = () => {

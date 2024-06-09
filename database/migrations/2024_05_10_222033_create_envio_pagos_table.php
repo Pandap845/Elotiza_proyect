@@ -20,11 +20,9 @@ return new class extends Migration
              $table->string('calle');
              $table->string('numero_exterior');
              $table->string('numero_interior')->nullable();
-             $table->string('metodo_pago'); // 'paypal' o podría ser otro si expandes opciones
-             $table->string('email_paypal')->nullable(); // Solo necesario para PayPal
              $table->string('paypal_id')->nullable(); // ID de la transacción PayPal
              $table->decimal('monto', 10, 2); // Monto cobrado
-             $table->string('estado'); // Estado del pago de PayPal
+          
              $table->timestamps();
          });
      }

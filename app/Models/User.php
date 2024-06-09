@@ -18,8 +18,6 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'apl_paterno',
-        'apl_materno',
         'email',
         'telefono',
         'password',
@@ -45,5 +43,10 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
         ];
+    }
+
+    public function pedidos()
+    {
+        return $this->hasMany(Pedido::class);
     }
 }
