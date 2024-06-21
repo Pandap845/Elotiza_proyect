@@ -6,6 +6,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
 
 defineProps({
     canResetPassword: {
@@ -22,10 +23,39 @@ const form = useForm({
     remember: false,
 });
 
+const errors = ref({
+    email: '',
+    password: '',
+});
+
+const validate = () => {
+    let valid = true;
+
+    // Validate email
+    if (form.email.length < 2 || form.email.length > 60) {
+        errors.value.email = 'El email debe tener entre 2 y 60 caracteres.';
+        valid = false;
+    } else {
+        errors.value.email = '';
+    }
+
+    // Validate password
+    if (form.password.length < 2 || form.password.length > 30) {
+        errors.value.password = 'La contraseña debe tener entre 2 y 30 caracteres.';
+        valid = false;
+    } else {
+        errors.value.password = '';
+    }
+
+    return valid;
+};
+
 const submit = () => {
-    form.post(route('login'), {
-        onFinish: () => form.reset('password'),
-    });
+    if (validate()) {
+        form.post(route('login'), {
+            onFinish: () => form.reset('password'),
+        });
+    }
 };
 </script>
 
@@ -33,7 +63,7 @@ const submit = () => {
     <GuestLayout class="gradient-background">
         <Head title="Log in" />
 
-        <div >
+        <div>
             <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
                 {{ status }}
             </div>
@@ -52,6 +82,7 @@ const submit = () => {
                         autocomplete="username"
                     />
 
+                    <InputError class="mt-2" :message="errors.email" />
                     <InputError class="mt-2" :message="form.errors.email" />
                 </div>
 
@@ -67,6 +98,7 @@ const submit = () => {
                         autocomplete="current-password"
                     />
 
+                    <InputError class="mt-2" :message="errors.password" />
                     <InputError class="mt-2" :message="form.errors.password" />
                 </div>
 
@@ -81,7 +113,6 @@ const submit = () => {
                     <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         Iniciar sesión
                     </PrimaryButton>
-                    
                 </div>
             </form>
         </div>

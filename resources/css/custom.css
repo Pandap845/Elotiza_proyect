@@ -297,5 +297,32 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: rgba(76, 175, 80, 0.8); /* 0.8 es la opacidad */
+}
+
+
+.footer {
+    text-align: center;
+    padding: 10px; /* Reducir el padding para hacer el footer más chico */
+    background-color: rgba(255, 255, 255, 0.9); /* Blanco con transparencia */
+    color: #6c757d;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid #e9ecef;
+}
+
+.footer .social-icons {
+    margin-top: 10px;
+}
+
+.footer .social-icons .icon {
+    margin: 0 10px;
+    font-size: 24px;
+    color: #6c757d;
+    transition: color 0.3s;
+}
+
+.footer .social-icons .icon:hover {
+    color: #007bff;
 }

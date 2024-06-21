@@ -1,17 +1,18 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { usePage, router } from '@inertiajs/vue3';
+import { usePage, router, Head } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+
 const { props } = usePage();
 const elotes = props.elotes || [];
 const toppings = props.toppings || [];
 const carrito = ref(props.carritos || []);
-
 let selectedElotes = ref([]);
 let selectedToppings = ref([]);
 let eloteQuantity = ref(1);
-
 const error = ref(null);
+const errors = ref({});
+
 const AgregarAlCarrito = async () => {
     let items = [];
 
@@ -27,9 +28,23 @@ const AgregarAlCarrito = async () => {
 
     if (items.length > 0) {
         try {
-            const response = await router.post(route('solicitud.store'), { items });
-           
-            resetForm(); // Restablece el formulario después de agregar al carrito
+            await router.post(route('solicitud.store'), { items }, {
+                preserveState: true,
+                preserveScroll: true,
+                onSuccess: (response) => {
+                    if (response.props.errors) {
+                        errors.value = response.props.errors;
+                    } else {
+                        resetForm(); // Restablece el formulario después de agregar al carrito
+                        errors.value = {};
+                        router.reload(); // Recargar la página para actualizar el carrito en el frontend
+                    }
+                },
+                onError: (error) => {
+                    console.error('Error al agregar al carrito:', error);
+                    errors.value = error;
+                }
+            });
         } catch (error) {
             console.error('Error al agregar al carrito:', error);
         }
@@ -41,7 +56,6 @@ const resetForm = () => {
     selectedToppings.value = [];
     eloteQuantity.value = 1;
 };
-
 
 const EliminarDelCarrito = async (index) => {
     try {
@@ -77,12 +91,12 @@ onMounted(() => {
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <form @submit.prevent="AgregarAlCarrito">
                             <p class="text-4xl font-semibold mb-2">¡Solicitar elotes!</p>
+                            <div v-if="errors.msg" class="text-red-500 mb-4">{{ errors.msg }}</div>
                             <div class="mb-4">
                                 <label for="eloteQuantity" class="block text-2xl text-gray-700 dark:text-gray-300">Cantidad de elotes:</label>
                                 <input type="number" id="eloteQuantity" v-model.number="eloteQuantity" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
                             </div>
                             <div class="mb-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                
                                 <template v-for="elote in elotes" :key="elote.id">
                                     <label class="flex flex-col items-center border-2 rounded-md p-4 bg-white dark:bg-gray-700 text-black dark:text-white" :class="{ 'bg-blue-100 border-blue-500': selectedElotes.includes(elote.id) }">
                                         <img :src="elote.imagen" alt="Elote Image" class="mb-4 w-full h-40 object-cover rounded">
@@ -171,17 +185,14 @@ onMounted(() => {
 
 .Elote-card ul {
     list-style: none;
-    padding: 0;
+    padding-left: 0;
 }
 
 .Elote-card li {
-    background-color: #e0e0e0;
-    border-radius: 0.25rem;
-    display: inline-block;
-    margin: 0.25rem;
-    padding: 0.25rem 0.5rem;
+    margin-bottom: 0.25rem;
 }
 </style>
+
 
 <style scoped>
 .text-shadow-custom {

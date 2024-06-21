@@ -5,6 +5,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { ref, watch } from 'vue';
 
 const form = useForm({
     name: '',
@@ -13,16 +14,65 @@ const form = useForm({
     password_confirmation: '',
 });
 
-const submit = () => {
-    form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
-    });
+const errors = ref({
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+});
+
+const validate = () => {
+    let valid = true;
+
+    // Validate name
+    if (form.name.length < 2 || form.name.length > 20) {
+        errors.value.name = 'El nombre debe tener entre 2 y 20 caracteres.';
+        valid = false;
+    } else {
+        errors.value.name = '';
+    }
+
+    // Validate email
+    if (form.email.length < 2 || form.email.length > 60) {
+        errors.value.email = 'El email debe tener entre 2 y 60 caracteres.';
+        valid = false;
+    } else {
+        errors.value.email = '';
+    }
+
+    // Validate password
+    if (form.password.length < 2 || form.password.length > 30) {
+        errors.value.password = 'La contraseña debe tener entre 2 y 30 caracteres.';
+        valid = false;
+    } else {
+        errors.value.password = '';
+    }
+
+    // Validate password confirmation
+    if (form.password_confirmation.length < 2 || form.password_confirmation.length > 30) {
+        errors.value.password_confirmation = 'La confirmación de la contraseña debe tener entre 2 y 30 caracteres.';
+        valid = false;
+    } else {
+        errors.value.password_confirmation = '';
+    }
+
+    return valid;
 };
+
+const submit = () => {
+    if (validate()) {
+        form.post(route('register'), {
+            onFinish: () => form.reset('password', 'password_confirmation'),
+        });
+    }
+};
+
+blur(form, validate);
 </script>
 
 <template>
     <GuestLayout>
-        <Head title="Register" />
+        <Head title="Creación de cuenta" />
 
         <!-- Imagen de fondo -->
         <div class="fixed inset-0 z-0 bg-cover bg-center" style="background-image: url('/storage/images/elotes.jpg');"></div>
@@ -42,6 +92,7 @@ const submit = () => {
                         autofocus
                         autocomplete="name"
                     />
+                    <InputError class="mt-2" :message="errors.name" />
 
                     <InputError class="mt-2" :message="form.errors.name" />
                 </div>
@@ -57,6 +108,7 @@ const submit = () => {
                         required
                         autocomplete="username"
                     />
+                    <InputError class="mt-2" :message="errors.email" />
 
                     <InputError class="mt-2" :message="form.errors.email" />
                 </div>
@@ -72,6 +124,7 @@ const submit = () => {
                         required
                         autocomplete="new-password"
                     />
+                    <InputError class="mt-2" :message="errors.password" />
 
                     <InputError class="mt-2" :message="form.errors.password" />
                 </div>
@@ -87,6 +140,7 @@ const submit = () => {
                         required
                         autocomplete="new-password"
                     />
+                    <InputError class="mt-2" :message="errors.password_confirmation" />
 
                     <InputError class="mt-2" :message="form.errors.password_confirmation" />
                 </div>

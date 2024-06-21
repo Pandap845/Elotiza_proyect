@@ -8,6 +8,7 @@ use DB;
 use App\Models\EnvioPago;
 use App\Models\Pedido;
 use Auth;
+use App\Models\Elote;
 use App\Models\Carrito;
 use Inertia\Inertia;
 use App\Models\DetallePedido;
@@ -15,8 +16,8 @@ use Illuminate\Support\Str;
 class PayPalController extends Controller
 {
     /**
-     * Create transaction.
-     *
+     * Create transaction.  En inglés debido a la API de PayPal
+     *Permite procesar la solicitud de PayPal exitosamente, creando el proceso.
      * @return \Illuminate\Http\Response
      */
     public function createTransaction()
@@ -25,8 +26,8 @@ class PayPalController extends Controller
     }
 
     /**
-     * Process transaction.
-     *
+     * Process transaction. En inglés debido a la API de PayPal
+     *Permite procesar una transacción
      * @return \Illuminate\Http\Response
      */
     public function processTransaction(Request $request)
@@ -64,8 +65,8 @@ class PayPalController extends Controller
     }
 
     /**
-     * Success transaction.
-     *
+     * Success transaction. Esta en inglés debido a la API de PayPal implementada
+     *Permite completar con éxito una transacción
      * @return \Illuminate\Http\Response
      */
     public function successTransaction(Request $request)
@@ -83,8 +84,8 @@ class PayPalController extends Controller
     }
 
     /**
-     * Cancel transaction.
-     *
+     * Cancel transaction. En inglés debido a la API de PayPal
+     *Método que, si encuentra un fallo en la transacción la cancela
      * @return \Illuminate\Http\Response
      */
     public function cancelTransaction(Request $request)
@@ -171,6 +172,13 @@ class PayPalController extends Controller
 
      //Administración
 
+/**
+ * 
+ * Método para aceptar un pedido
+ * 
+ */
+
+
      public function aceptar($id)
      {
          $pedido = Pedido::findOrFail($id);
@@ -179,63 +187,90 @@ class PayPalController extends Controller
  
          return redirect()->route('administracion');
      }
+
+/**
+ * 
+ * Método para rechazar un pedido (y reembolsar)
+ * 
+ */
+
  
      public function rechazar(Request $request, $id)
-{
-    try {
-        // Encuentra el pedido y actualiza su estado a 'rechazado'
-        \Log::info('Iniciando el proceso de rechazo para el pedido: ' . $id);
-        $pedido = Pedido::findOrFail($id);
-        $envioPago = EnvioPago::where('pedido_id', $id)->firstOrFail();
+     {
+         try {
+             // Encuentra el pedido y actualiza su estado a 'rechazado'
+             \Log::info('Iniciando el proceso de rechazo para el pedido: ' . $id);
+             $pedido = Pedido::findOrFail($id);
+             $envioPago = EnvioPago::where('pedido_id', $id)->firstOrFail();
+     
+             // Configura PayPal y obtiene un token de acceso
+             $provider = new PayPalClient;
+             $provider->setApiCredentials(config('paypal'));
+             $paypalToken = $provider->getAccessToken();
+             \Log::info('Token de acceso de PayPal obtenido exitosamente.');
+     
+             // Realiza la solicitud de reembolso
+             \Log::info('Iniciando el proceso de reembolso para el pedido: ' . $id);
+             $capture_id = $envioPago->paypal_id;
+             $invoice_id = Str::uuid(); // Generar un UUID para el reembolso
+             $amount = $envioPago->monto;
+             $note_to_payer = 'Reembolso por pedido rechazado';
+     
+             $response = $provider->refundCapturedPayment($capture_id, $invoice_id, $amount, $note_to_payer);
+     
+             // Registrar la respuesta completa de PayPal
+             \Log::info('Respuesta de PayPal: ' . json_encode($response));
+     
+             // Verificar que la respuesta contiene el estado esperado
+             if (isset($response['status']) && $response['status'] === 'COMPLETED') {
+                 \Log::info('Reembolso completado exitosamente para el pedido: ' . $id);
+                 
+                 // Actualizar la cantidad disponible de los elementos cancelados
+                 $detallePedidos = $pedido->detallePedidos;
+                 foreach ($detallePedidos as $detalle) {
+                     // Actualizar cantidad de Elote
+                     $elote = Elote::findOrFail($detalle->elote_id);
+                     $elote->cantidad += $detalle->cantidad;
+                     $elote->save();
+                     \Log::info('Cantidad de elote actualizada para el elote: ' . $elote->id . ' - Nueva cantidad: ' . $elote->cantidad);
+     
+                     // Actualizar cantidad de Toppings
+                     $toppings = $detalle->toppings;
+                     foreach ($toppings as $topping) {
+                         $topping->cantidad += $topping->pivot->cantidad;
+                         $topping->save();
+                         \Log::info('Cantidad de topping actualizada para el topping: ' . $topping->id . ' - Nueva cantidad: ' . $topping->cantidad);
+                     }
+                 }
+     
+                 $pedido->estado = 'rechazado';
+                 $pedido->save();
+                 \Log::info('Estado del pedido actualizado a "rechazado" para el pedido: ' . $id);
+     
+                 return redirect()->route('administracion')->with('flash', ['status' => 'success', 'message' => 'Reembolso completado con éxito.']);
+             } else {
+                 $errorMessage = isset($response['message']) ? $response['message'] : 'Respuesta inesperada de PayPal';
+                 \Log::error('Error en el reembolso para el pedido: ' . $id . ' - Mensaje: ' . $errorMessage);
+                 return redirect()->route('administracion')->with('flash', ['status' => 'error', 'message' => 'Error en el reembolso: ' . $errorMessage]);
+             }
+         } catch (\Exception $ex) {
+             // Maneja excepciones y redirige a la vista de administración con un mensaje de error
+             \Log::error('Excepción capturada durante el proceso de reembolso para el pedido: ' . $id . ' - Mensaje: ' . $ex->getMessage());
+             return redirect()->route('administracion')->with('flash', ['status' => 'error', 'message' => 'Error en el reembolso: ' . $ex->getMessage()]);
+         }
+     }
 
-        // Configura PayPal y obtiene un token de acceso
-        $provider = new PayPalClient;
-        $provider->setApiCredentials(config('paypal'));
-        $paypalToken = $provider->getAccessToken();
-        \Log::info('Token de acceso de PayPal obtenido exitosamente.');
+/**
+ * 
+ * Método para cancelar un pedido
+ * 
+ */
 
-        // Realiza la solicitud de reembolso
-        \Log::info('Iniciando el proceso de reembolso para el pedido: ' . $id);
-        $capture_id = $envioPago->paypal_id;
-        $invoice_id = Str::uuid(); // Generar un UUID para el reembolso
-        $amount = $envioPago->monto;
-        $note_to_payer = 'Reembolso por pedido rechazado';
-
-        $response = $provider->refundCapturedPayment($capture_id, $invoice_id, $amount, $note_to_payer);
-
-        // Registrar la respuesta completa de PayPal
-        \Log::info('Respuesta de PayPal: ' . json_encode($response));
-
-        // Verificar que la respuesta contiene el estado esperado
-        if (isset($response['status']) && $response['status'] === 'COMPLETED') {
-            \Log::info('Reembolso completado exitosamente para el pedido: ' . $id);
-            $pedido->estado = 'rechazado';
-            $pedido->save();
-            \Log::info('Estado del pedido actualizado a "rechazado" para el pedido: ' . $id);
-
-            
-         
-          
-            \Log::info('ID del reembolso guardado en EnvioPago para el pedido: ' . $id);
-
-            return redirect()->route('administracion')->with('flash', ['status' => 'success', 'message' => 'Reembolso completado con éxito.']);
-        } else {
-            $errorMessage = isset($response['message']) ? $response['message'] : 'Respuesta inesperada de PayPal';
-            \Log::error('Error en el reembolso para el pedido: ' . $id . ' - Mensaje: ' . $errorMessage);
-            return redirect()->route('administracion')->with('flash', ['status' => 'error', 'message' => 'Error en el reembolso: ' . $errorMessage]);
-        }
-    } catch (\Exception $ex) {
-        // Maneja excepciones y redirige a la vista de administración con un mensaje de error
-        \Log::error('Excepción capturada durante el proceso de reembolso para el pedido: ' . $id . ' - Mensaje: ' . $ex->getMessage());
-        return redirect()->route('administracion')->with('flash', ['status' => 'error', 'message' => 'Error en el reembolso: ' . $ex->getMessage()]);
-    }
-}
 
      public function cancelar(Request $request, $id)
-     {
-        
+{
     try {
-        // Encuentra el pedido y actualiza su estado a 'rechazado'
+        // Encuentra el pedido y actualiza su estado a 'cancelado'
         \Log::info('Iniciando el proceso de cancelar para el pedido: ' . $id);
         $pedido = Pedido::findOrFail($id);
         $envioPago = EnvioPago::where('pedido_id', $id)->firstOrFail();
@@ -244,7 +279,7 @@ class PayPalController extends Controller
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
         $paypalToken = $provider->getAccessToken();
-        \Log::info('Token de acceso de PayPal obtenido: exitosamente.');
+        \Log::info('Token de acceso de PayPal obtenido exitosamente.');
 
         // Realiza la solicitud de reembolso
         \Log::info('Iniciando el proceso de reembolso para el pedido: ' . $id);
@@ -261,13 +296,28 @@ class PayPalController extends Controller
         // Verificar que la respuesta contiene el estado esperado
         if (isset($response['status']) && $response['status'] === 'COMPLETED') {
             \Log::info('Reembolso completado exitosamente para el pedido: ' . $id);
+            
+            // Actualizar la cantidad disponible de los elementos cancelados
+            $detallePedidos = $pedido->detallePedidos;
+            foreach ($detallePedidos as $detalle) {
+                // Actualizar cantidad de Elote
+                $elote = Elote::findOrFail($detalle->elote_id);
+                $elote->cantidad += $detalle->cantidad;
+                $elote->save();
+                \Log::info('Cantidad de elote actualizada para el elote: ' . $elote->id . ' - Nueva cantidad: ' . $elote->cantidad);
+
+                // Actualizar cantidad de Toppings
+                $toppings = $detalle->toppings;
+                foreach ($toppings as $topping) {
+                    $topping->cantidad += $topping->pivot->cantidad;
+                    $topping->save();
+                    \Log::info('Cantidad de topping actualizada para el topping: ' . $topping->id . ' - Nueva cantidad: ' . $topping->cantidad);
+                }
+            }
+
             $pedido->estado = 'cancelado';
             $pedido->save();
             \Log::info('Estado del pedido actualizado a "cancelado" para el pedido: ' . $id);
-
-            
-         
-            \Log::info('ID del reembolso guardado en EnvioPago para el pedido: ' . $id);
 
             return redirect()->route('historial')->with('flash', ['status' => 'success', 'message' => 'Reembolso completado con éxito.']);
         } else {
@@ -276,10 +326,11 @@ class PayPalController extends Controller
             return redirect()->route('historial')->with('flash', ['status' => 'error', 'message' => 'Error en el reembolso: ' . $errorMessage]);
         }
     } catch (\Exception $ex) {
-        // Maneja excepciones y redirige a la vista de administración con un mensaje de error
+        // Maneja excepciones y redirige a la vista de historial con un mensaje de error
         \Log::error('Excepción capturada durante el proceso de reembolso para el pedido: ' . $id . ' - Mensaje: ' . $ex->getMessage());
         return redirect()->route('historial')->with('flash', ['status' => 'error', 'message' => 'Error en el reembolso: ' . $ex->getMessage()]);
     }
-     }
+}
+
      
 }

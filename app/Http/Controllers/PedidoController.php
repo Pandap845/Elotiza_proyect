@@ -26,99 +26,100 @@ class PedidoController extends Controller
        
      }
 
-   
      public function confirmarPedido(Request $request)
      {
          $user_id = Auth::id();
      
-         // Log the request data
-         \Log::info('Confirmar Pedido Request:', $request->all());
-         \Log::info('User ID:', ['user_id' => $user_id]);
-     
-         DB::transaction(function () use ($user_id, $request) {
-             // Crear un nuevo pedido
-             $pedido = Pedido::create([
-                 'user_id' => $user_id,
-                 'total' => 0, // Calcular el total más adelante
-                 'estado' => 'pendiente',
-             ]);
-     
-             \Log::info('Pedido Created:', $pedido->toArray());
-     
-             // Mover ítems del carrito a detalle_pedidos
-             $carritos = Carrito::with('toppings')->where('user_id', $user_id)->get();
-             $total = 0;
-     
-             foreach ($carritos as $carrito) {
-                 $elote = Elote::find($carrito->elote_id);
-                 if ($elote->cantidad < $carrito->cantidad) {
-                     throw new \Exception('No hay suficientes elotes en stock.');
-                 }
-                 $elote->cantidad -= $carrito->cantidad;
-                 $elote->save();
-     
-                 $precio_elote = $elote->precio;
-                 $precio_total_elote = $precio_elote * $carrito->cantidad;
-     
-                 $detallePedido = DetallePedido::create([
-                     'pedido_id' => $pedido->id,
-                     'elote_id' => $carrito->elote_id,
-                     'cantidad' => $carrito->cantidad,
-                     'precio' => $precio_total_elote,
+         try {
+             DB::transaction(function () use ($user_id, $request) {
+                 // Crear un nuevo pedido
+                 $pedido = Pedido::create([
+                     'user_id' => $user_id,
+                     'total' => 0, // Calcular el total más adelante
+                     'estado' => 'pendiente',
                  ]);
      
-                 \Log::info('Detalle Pedido Created:', $detallePedido->toArray());
+                 \Log::info('Pedido Created:', $pedido->toArray());
      
-                 $total += $detallePedido->precio;
+                 // Mover ítems del carrito a detalle_pedidos
+                 $carritos = Carrito::with('toppings')->where('user_id', $user_id)->get();
+                 $total = 0;
      
-                 foreach ($carrito->toppings as $topping) {
-                     $toppingModel = Topping::find($topping->id);
-                     if ($toppingModel->cantidad < $topping->pivot->cantidad) {
-                         throw new \Exception('No hay suficientes toppings en stock.');
+                 foreach ($carritos as $carrito) {
+                     $elote = Elote::find($carrito->elote_id);
+                     if ($elote->cantidad < $carrito->cantidad) {
+                         throw new \Exception("No hay suficientes elotes en stock para {$elote->nombre}.");
                      }
-                     $toppingModel->cantidad -= $topping->pivot->cantidad;
-                     $toppingModel->save();
+                     $elote->cantidad -= $carrito->cantidad;
+                     $elote->save();
      
-                     $precio_topping = $topping->pivot->precio * $topping->pivot->cantidad;
-                     $detallePedido->toppings()->attach($topping->id, [
-                         'cantidad' => $topping->pivot->cantidad,
-                         'precio' => $precio_topping,
+                     $precio_elote = $elote->precio;
+                     $precio_total_elote = $precio_elote * $carrito->cantidad;
+     
+                     $detallePedido = DetallePedido::create([
+                         'pedido_id' => $pedido->id,
+                         'elote_id' => $carrito->elote_id,
+                         'cantidad' => $carrito->cantidad,
+                         'precio' => $precio_total_elote,
                      ]);
-                     \Log::info('Topping Attached:', [
-                         'detalle_pedido_id' => $detallePedido->id,
-                         'topping_id' => $topping->id,
-                         'cantidad' => $topping->pivot->cantidad,
-                         'precio' => $precio_topping,
-                     ]);
-                     $total += $precio_topping;
+     
+                     \Log::info('Detalle Pedido Created:', $detallePedido->toArray());
+     
+                     $total += $detallePedido->precio;
+     
+                     foreach ($carrito->toppings as $topping) {
+                         $toppingModel = Topping::find($topping->id);
+                         if ($toppingModel->cantidad < $topping->pivot->cantidad) {
+                             throw new \Exception("No hay suficientes toppings en stock para {$toppingModel->nombre}.");
+                         }
+                         $toppingModel->cantidad -= $topping->pivot->cantidad;
+                         $toppingModel->save();
+     
+                         $precio_topping = $topping->pivot->precio * $topping->pivot->cantidad;
+                         $detallePedido->toppings()->attach($topping->id, [
+                             'cantidad' => $topping->pivot->cantidad,
+                             'precio' => $precio_topping,
+                         ]);
+                         \Log::info('Topping Attached:', [
+                             'detalle_pedido_id' => $detallePedido->id,
+                             'topping_id' => $topping->id,
+                             'cantidad' => $topping->pivot->cantidad,
+                             'precio' => $precio_topping,
+                         ]);
+                         $total += $precio_topping;
+                     }
+     
+                     // Eliminar el ítem del carrito
+                     $carrito->delete();
+                     \Log::info('Carrito Item Deleted:', ['carrito_id' => $carrito->id]);
                  }
      
-                 // Eliminar el ítem del carrito
-                 $carrito->delete();
-                 \Log::info('Carrito Item Deleted:', ['carrito_id' => $carrito->id]);
-             }
+                 // Actualizar el total del pedido
+                 $pedido->update(['total' => $total]);
+                 \Log::info('Pedido Total Updated:', ['pedido_id' => $pedido->id, 'total' => $total]);
      
-             // Actualizar el total del pedido
-             $pedido->update(['total' => $total]);
-             \Log::info('Pedido Total Updated:', ['pedido_id' => $pedido->id, 'total' => $total]);
+                 // Crear registro en EnvioPago
+                 EnvioPago::create([
+                     'pedido_id' => $pedido->id,
+                     'ciudad' => $request->ciudad,
+                     'colonia' => $request->colonia,
+                     'calle' => $request->calle,
+                     'numero_exterior' => $request->numero_exterior,
+                     'numero_interior' => $request->numero_interior,
+                     'paypal_id' => $request->paypal_id,
+                     'monto' => $total,
+                 ]);
+                 \Log::info('Envio confirmado');
+             });
      
-             // Crear registro en EnvioPago
-             EnvioPago::create([
-                 'pedido_id' => $pedido->id,
-                 'ciudad' => $request->ciudad,
-                 'colonia' => $request->colonia,
-                 'calle' => $request->calle,
-                 'numero_exterior' => $request->numero_exterior,
-                 'numero_interior' => $request->numero_interior,
-                 'paypal_id' => $request->paypal_id,
-                 
-                 'monto' => $total,
-             ]);
-             \Log::info('Envio realizado');
-         });
-     
-         return Inertia::render('Compras/Pedido'); // Redirigir a la vista de pedidos usando Inertia
+             return response()->json(['success' => true]);
+         } catch (\Exception $e) {
+             \Log::error('Error Confirmando Pedido:', ['message' => $e->getMessage(), 'user_id' => $user_id, 'request' => $request->all()]);
+             return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
+         }
      }
+     
+     
      public function index()
      {
          $user_id = Auth::id();

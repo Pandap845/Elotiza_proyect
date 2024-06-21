@@ -2,7 +2,7 @@
   <AuthenticatedLayout>
     <Head title="Menú Principal" />
     <template #header>
-      <h2 class="font-extrabold text-6xl text-gray-800 dark:text-gray-200 leading-tight text-shadow-custom">Menú principal</h2>
+    <h2 class="font-extrabold text-6xl text-gray-800 dark:text-gray-200 leading-tight text-shadow-custom">Menú principal</h2>
     </template>
     <div class="py-12 flex justify-center">
       <div class="bg-white dark:bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg p-6 text-gray-900 dark:text-gray-100 flex flex-wrap justify-center items-center space-x-4 space-y-4">
@@ -37,21 +37,20 @@
         />
       </div>
     </div>
-    <footer class="footer">
-      <p>© Miku Elotes</p>
-      <div class="social-icons">
-        <a href="https://instagram.com" target="_blank" class="icon"><i class="fab fa-instagram"></i></a>
-        <a href="https://twitter.com" target="_blank" class="icon"><i class="fab fa-twitter"></i></a>
-      </div>
-    </footer>
+
+    <FooterComponent></FooterComponent>
+  
   </AuthenticatedLayout>
 </template>
 
 <script setup>
+import FooterComponent from '@/Components/Footer.vue';
+
 import { ref } from 'vue';
 import { usePage, router } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Card from '@/Components/Card.vue'; // A new component for the card
+import { Head } from '@inertiajs/vue3';
 
 const { props } = usePage();
 const user = props.auth.user;
@@ -129,31 +128,6 @@ const irAdministracion = () => {
     color: white;
 }
 
-.footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #f8f9fa;
-    color: #6c757d;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    border-top: 1px solid #e9ecef;
-}
-
-.footer .social-icons {
-    margin-top: 10px;
-}
-
-.footer .social-icons .icon {
-    margin: 0 10px;
-    font-size: 24px;
-    color: #6c757d;
-    transition: color 0.3s;
-}
-
-.footer .social-icons .icon:hover {
-    color: #007bff;
-}
 </style>
 
 

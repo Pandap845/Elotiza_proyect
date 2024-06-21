@@ -34,12 +34,12 @@ const updatePassword = () => {
 </script>
 
 <template>
-    <section>
+    <section class="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg shadow-2xl">
         <header>
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Update Password</h2>
+            <h2 class="text-3xl font-medium text-gray-900 dark:text-gray-100 text-shadow-custom">Actualizar contraseña</h2>
 
-            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                Ensure your account is using a long, random password to stay secure.
+            <p class="mt-1 text-2xl text-gray-900 dark:text-gray-900">
+                Asegurate que tu contraseña sean mínimo 8 caracteres con algún caracter especial
             </p>
         </header>
 
@@ -89,7 +89,7 @@ const updatePassword = () => {
             </div>
 
             <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
+                <PrimaryButton :disabled="form.processing">Guardar</PrimaryButton>
 
                 <Transition
                     enter-active-class="transition ease-in-out"
@@ -97,9 +97,15 @@ const updatePassword = () => {
                     leave-active-class="transition ease-in-out"
                     leave-to-class="opacity-0"
                 >
-                    <p v-if="form.recentlySuccessful" class="text-sm text-gray-600 dark:text-gray-400">Saved.</p>
+                    <p v-if="form.recentlySuccessful" class="text-sm text-gray-600 dark:text-gray-400">Guardado</p>
                 </Transition>
             </div>
         </form>
     </section>
 </template>
+
+<style scoped>
+.text-shadow-custom {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+</style>

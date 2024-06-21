@@ -74,13 +74,10 @@ class SolicitudController extends Controller
        $user_id = Auth::id();
        \Log::info('Usuario autenticado', ['user_id' => $user_id]);
    
-       foreach ($request->items as $item) {
+       foreach ($request->items as $item) { 
            $elote = Elote::find($item['elote_id']);
-           if ($elote->cantidad < $item['cantidad']) {
-               return back()->withErrors(['msg' => 'No hay suficientes elotes en stock.']);
-           }
-           $elote->cantidad -= $item['cantidad'];
-           $elote->save();
+           
+           // Aquí se ha eliminado la validación de la cantidad del elote en stock
    
            $carrito = Carrito::create([
                'user_id' => $user_id,
@@ -93,11 +90,8 @@ class SolicitudController extends Controller
            if (isset($item['toppings'])) {
                foreach ($item['toppings'] as $topping) {
                    $toppingModel = Topping::find($topping['id']);
-                   if ($toppingModel->cantidad < $topping['cantidad']) {
-                       return back()->withErrors(['msg' => 'No hay suficientes toppings en stock.']);
-                   }
-                   $toppingModel->cantidad -= $topping['cantidad'];
-                   $toppingModel->save();
+                   
+                   // Aquí se ha eliminado la validación de la cantidad de los toppings en stock
    
                    $carrito->toppings()->attach($topping['id'], [
                        'cantidad' => $topping['cantidad'],
@@ -115,8 +109,6 @@ class SolicitudController extends Controller
    
        // Log de finalización del proceso
        \Log::info('Proceso de agregar items al carrito completado', ['user_id' => $user_id]);
-       $user_id = Auth::id();
-       \Log::info('User ID:', ['user_id' => $user_id]);
    
        $carritos = Carrito::with('elote', 'toppings')->where('user_id', $user_id)->get();
        \Log::info('Carritos:', $carritos->toArray());
@@ -142,8 +134,8 @@ class SolicitudController extends Controller
            'elotes' => $elotes,
            'toppings' => $toppings
        ]);
-    
    }
+   
    
    // Método para mostrar un carrito específico
    public function show(Carrito $carrito)
